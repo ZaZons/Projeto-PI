@@ -22,10 +22,9 @@ class ClienteController extends Controller
         return view('clientes.show', compact('cliente'));
     }
 
-    public function edit(Aluno $aluno): View
+    public function edit(Cliente $cliente): View
     {
-        $cursos = Curso::all();
-        return view('alunos.edit', compact('aluno', 'cursos'));
+        return view('clientes.edit', compact('cliente'));
     }
 
     public function store(Request $request) {

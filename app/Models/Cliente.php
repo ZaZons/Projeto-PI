@@ -10,9 +10,9 @@ class Cliente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nif', 'tipo_pagamento', 'ref_pagamento'];
+    protected $fillable = ['id', 'nif', 'tipo_pagamento', 'ref_pagamento'];
 
     public function user(): BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id', 'id');
     }
 }

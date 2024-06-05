@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AlunoRequest;
 use App\Models\Aluno;
+use App\Models\Cliente;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -15,17 +17,43 @@ use Illuminate\View\View;
 
 class ClienteController extends Controller
 {
-    public function show(Aluno $aluno): View
+    public function show(Cliente $cliente)
     {
-        $cursos = Curso::all();
-        $aluno->load('disciplinas', 'disciplinas.cursoRef');
-        return view('alunos.show', compact('aluno', 'cursos'));
+        return view('clientes.show', compact('cliente'));
     }
 
     public function edit(Aluno $aluno): View
     {
         $cursos = Curso::all();
         return view('alunos.edit', compact('aluno', 'cursos'));
+    }
+
+    public function store(Request $request) {
+        $formData = $request->validated();
+        $cliente = DB::transaction(function () use ($formData, $request) {
+            $newUser = new User();
+            $newUser->name = $formData['name'];
+            $newUser->email = $formData['email'];
+            $newUser->password = Hash::make($formData['password']);
+            $newUser->tipo = 'C';
+            $newUser->save();
+            $newCliente = new Cliente();
+            $newCliente->id = $newUser->id;
+            $newCliente->save();
+
+            if ($request->hasFile('file_foto')) {
+                $path = $request->file_foto->store('public/fotos');
+                $newUser->url_foto = basename($path);
+                $newUser->save();
+            }
+            return $newCliente;
+        });
+        $url = route('clientes.show', ['cliente' => $cliente]);
+        $htmlMessage = "Cliente <a href='$url'>#{$cliente->id}</a>
+                        <strong>\"{$cliente->user->name}\"</strong> foi criado com sucesso!";
+        return redirect()->route('home')
+            ->with('alert-msg', $htmlMessage)
+            ->with('alert-type', 'success');
     }
 
     public function update(AlunoRequest $request, Aluno $aluno): RedirectResponse

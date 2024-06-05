@@ -20,5 +20,5 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/home');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::get('/users/perfil', [ClienteController::class, 'show'])->name('perfil');
+Route::resource('clientes', ClienteController::class);
 

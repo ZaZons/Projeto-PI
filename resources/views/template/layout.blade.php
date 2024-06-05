@@ -52,7 +52,7 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Perfil</a></li>
+                    <li><a class="dropdown-item" href="{{ route('clientes.show', ['cliente' => Auth::user()->cliente]) }}">Perfil</a></li>
                     <li><a class="dropdown-item" href="#">Alterar Senha</a></li>
                     <li>
                         <hr class="dropdown-divider" />

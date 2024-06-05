@@ -14,7 +14,7 @@
     <div>
         <div class="d-flex flex-column flex-sm-row justify-content-start align-items-start">
             <div class="flex-grow-1 pe-2">
-                @include('clientes.shared.fields', ['user' => $cliente->user, 'readonlyData' => true])
+                @include('clientes.shared.fields', ['cliente' => $cliente, 'readonlyData' => true])
                 <div class="my-1 d-flex justify-content-end">
                     <button type="submit" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmationModal">
                         Apagar conta</button>

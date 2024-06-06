@@ -60,7 +60,7 @@ class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
     {
         return Attribute::make(
             get: function () {
-                return $this->url_foto ? asset('storage/fotos/' . $this->url_foto) : asset('/img/avatar_unknown.png');
+                return $this->foto_url ? asset('storage/fotos/' . $this->foto_url) : asset('/img/avatar_unknown.png');
             },
         );
     }

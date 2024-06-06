@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Politécnico de Leiria</title>
+    <title>Projeto de PI</title>
     @vite('resources/sass/app.scss')
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -52,7 +52,7 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{ route('clientes.show', ['cliente' => Auth::user()->cliente]) }}">Perfil</a></li>
+                    <li><a class="dropdown-item" href="{{ Auth::user()->tipo === 'C' ? route('clientes.show', ['cliente' => Auth::user()->cliente]) : route('funcionarios.show', ['funcionario' => Auth::user()])}}">Perfil</a></li>
                     <li><a class="dropdown-item" href="#">Alterar Senha</a></li>
                     <li>
                         <hr class="dropdown-divider" />
@@ -91,35 +91,10 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
                         Alunos
                     </a>
-                    <div class="sb-sidenav-menu-heading">Gestão</div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                       data-bs-target="#collapseCurricular" aria-expanded="false"
-                       aria-controls="collapseCurricular">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Curricular
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseCurricular" aria-labelledby="headingOne"
-                         data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link {{ Route::currentRouteName() == 'cursos.index' ? 'active' : '' }}"
-                               href="#">Cursos</a>
-                            <a class="nav-link {{ Route::currentRouteName() == 'disciplinas.index' ? 'active' : '' }}"
-                               href="#">Disciplinas</a>
-                        </nav>
-                    </div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                       data-bs-target="#collapseRecursosHumanos" aria-expanded="false"
-                       aria-controls="collapseRecursosHumanos">
-                        <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                        Recursos Humanos
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseRecursosHumanos" aria-labelledby="headingTwo"
-                         data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link {{ Route::currentRouteName() == 'departamentos.index' ? 'active' : '' }}"
-                               href="#">Departamentos</a>
+
+                    <div class="sb-sidenav-menu-heading">Recursos Humanos</div>
+                            <a class="nav-link {{ Route::currentRouteName() == 'funcionarios.index' ? 'active' : '' }}"
+                               href="{{ route('funcionarios.index') }}">Funcionarios</a>
                             <a class="nav-link {{ Route::currentRouteName() == 'docentes.index' ? 'active' : '' }}"
                                href="#">Docentes</a>
                         </nav>

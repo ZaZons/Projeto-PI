@@ -16,53 +16,53 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class ClienteController extends Controller
+class FuncionariosController extends Controller
 {
-    public function show(Cliente $cliente)
-    {
-        return view('clientes.show', compact('cliente'));
+    public function index() {
+        $funcionarios = User::query()->where('tipo', '!=', 'C')->paginate(10);
+
+        return view('funcionarios.index', compact('funcionarios'));
     }
 
-    public function edit(Cliente $cliente): View
+    public function show(User $funcionario)
     {
-        return view('clientes.edit', compact('cliente'));
+        return view('funcionarios.show', compact('funcionario'));
+    }
+
+    public function edit(User $funcionario): View
+    {
+        return view('funcionarios.edit', compact('funcionario'));
     }
 
     public function store(Request $request) {
         $formData = $request->validated();
-        $cliente = DB::transaction(function () use ($formData, $request) {
+        $funcionario = DB::transaction(function () use ($formData, $request) {
             $newUser = new User();
             $newUser->name = $formData['name'];
             $newUser->email = $formData['email'];
             $newUser->password = Hash::make($formData['password']);
-            $newUser->tipo = 'C';
+            $newUser->tipo = $formData['tipo'];
             $newUser->save();
-            $newCliente = new Cliente();
-            $newCliente->id = $newUser->id;
-            $newCliente->save();
 
             if ($request->hasFile('file_foto')) {
                 $path = $request->file_foto->store('public/fotos');
                 $newUser->foto_url = basename($path);
                 $newUser->save();
             }
-            return $newCliente;
+            return $newUser;
         });
-        $url = route('clientes.show', ['cliente' => $cliente]);
-        $htmlMessage = "Cliente <a href='$url'>#{$cliente->id}</a>
-                        <strong>\"{$cliente->user->name}\"</strong> foi criado com sucesso!";
+        $url = route('funcionarios.show', ['funcionario' => $funcionario]);
+
         return redirect()->route('home')
-            ->with('alert-msg', $htmlMessage)
+            ->with('alert-msg', "Funcionario <a href='$url'>#{$funcionario->id}</a>
+                        <strong>\"{$funcionario->user->name}\"</strong> foi criado com sucesso!")
             ->with('alert-type', 'success');
     }
 
-    public function update(ClienteRequest $request, Cliente $cliente): RedirectResponse
+    public function update(ClienteRequest $request, User $user): RedirectResponse
     {
         $formData = $request->validated();
-        $cliente = DB::transaction(function () use ($formData, $cliente, $request) {
-            $cliente->nif = $formData['nif'];
-            $cliente->save();
-            $user = $cliente->user;
+        $funcionario = DB::transaction(function () use ($formData, $funcionario, $request) {
             $user->name = $formData['name'];
             $user->email = $formData['email'];
             $user->save();
@@ -75,20 +75,20 @@ class ClienteController extends Controller
                 $user->foto_url = basename($path);
                 $user->save();
             }
-            return $cliente;
+            return $funcionario;
         });
 
-        return redirect()->route('clientes.show', ['cliente' => $cliente])
+        return redirect()->route('funcionarios.show', ['funcionario' => $funcionario])
             ->with('alert-msg', "O seu perfil foi atualizado com sucesso!")
             ->with('alert-type', 'success');
     }
 
-    public function destroy(Cliente $cliente): RedirectResponse
+    public function destroy(Cliente $funcionario): RedirectResponse
     {
         try {
-            $user = $cliente->user;
-                DB::transaction(function () use ($cliente, $user) {
-                    $cliente->delete();
+            $user = $funcionario->user;
+                DB::transaction(function () use ($funcionario, $user) {
+                    $funcionario->delete();
                     $user->delete();
                     if ($user->foto_url) {
                         Storage::delete('public/fotos/' . $user->foto_url);
@@ -102,20 +102,20 @@ class ClienteController extends Controller
             $htmlMessage = "Não foi possível apagar a sua conta porque ocorreu um erro!";
             $alertType = 'danger';
 
-            return redirect()->route('clientes.show', ['cliente' => $cliente])
+            return redirect()->route('funcionarios.show', ['funcionario' => $funcionario])
                 ->with('alert-msg', $htmlMessage)
                 ->with('alert-type', $alertType);
         }
     }
 
-    public function destroy_foto(Cliente $cliente): RedirectResponse {
-        if ($cliente->user->foto_url) {
-            Storage::delete('public/fotos/' . $cliente->user->foto_url);
-            $cliente->user->foto_url = null;
-            $cliente->user->save();
+    public function destroy_foto(Cliente $funcionario): RedirectResponse {
+        if ($funcionario->user->foto_url) {
+            Storage::delete('public/fotos/' . $funcionario->user->foto_url);
+            $funcionario->user->foto_url = null;
+            $funcionario->user->save();
         }
 
-        return redirect()->route('clientes.edit', ['cliente' => $cliente])
+        return redirect()->route('funcionarios.edit', ['funcionario' => $funcionario])
             ->with('alert-msg', 'Foto removida!')
             ->with('alert-type', 'success');
     }

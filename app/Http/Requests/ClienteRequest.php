@@ -20,23 +20,18 @@ class ClienteRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
+    // TODO: validacao metodo de pagamento
     public function rules(): array
     {
         return [
             'name' => [
                 'required',
-                Rule::unique('users', 'name')->ignore($this->user_id),
             ],
             'email' => [
                 'required',
-                'email',
-                Rule::unique('users', 'email')->ignore($this->user_id),
+                'email'
             ],
-            'admin' =>              'required|boolean',
-            'genero' =>             'required|in:M,F',
-            'curso' =>              'required|exists:cursos,abreviatura',
-            'numero' =>             'required|integer',
-            'password_inicial' =>   'sometimes|required',
+            'nif' => 'sometimes|size:9',
             'file_foto' => 'sometimes|image|max:4096'
         ];
     }
@@ -50,19 +45,10 @@ class ClienteRequest extends FormRequest
     {
         return [
             'name.required' =>  'O nome é obrigatório',
-            'name.unique' =>    'O nome tem que ser único',
             'email.required' => 'O email é obrigatório',
             'email.email' =>    'O formato do email é inválido',
-            'email.unique' =>   'O email tem que ser único',
-            'admin.required' => 'O campo "admin" é obrigatório',
-            'admin.boolean' =>  'O campo "admin" tem que ser um booleano',
-            'genero.required' =>    'O gênero é obrigatório',
-            'genero.in' =>          'O gênero tem que ser M ou F (Masculino ou Feminino)',
-            'curso.required' =>     'O curso é obrigatório',
-            'curso.exists' =>       'O curso não existe na base de dados',
-            'numero.required' =>    'O nº de aluno é obrigatório',
-            'numero.integer' =>     'O nº de aluno tem que ser inteiro',
-            'password_inicial.required' => 'A password inicial é obrigatória',
+            'nif.unique' => 'O NIF tem de ser único',
+            'nif.size' => 'O NIF tem de ter 9 dígitos',
             'file_foto.image' => 'O ficheiro com a foto não é uma imagem',
             'file_foto.size' => 'O tamanho do ficheiro com a foto tem que ser inferior a 4 Mb',
         ];

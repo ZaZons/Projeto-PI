@@ -5,34 +5,33 @@
 @section('subtitulo')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Página inicial</a></li>
-        <li class="breadcrumb-item">{{ $cliente->user->name }}</li>
-        <li class="breadcrumb-item"><a href="{{route('clientes.show', ['cliente' => $cliente])}}">Perfil</a></li>
+        <li class="breadcrumb-item">{{ $funcionario->name }}</li>
+        <li class="breadcrumb-item"><a href="{{route('funcionarios.show', ['funcionario' => $funcionario])}}">Perfil</a></li>
         <li class="breadcrumb-item active">Editar perfil</li>
     </ol>
 @endsection
 
 @section('main')
-    <form id="form_cliente" novalidate class="needs-validation" method="POST" enctype="multipart/form-data"
-          action="{{ route('clientes.update', ['cliente' => $cliente]) }}">
+    <form id="form_funcionario" novalidate class="needs-validation" method="POST" enctype="multipart/form-data"
+          action="{{ route('funcionarios.update', ['funcionario' => $funcionario]) }}">
         @csrf
         @method('PUT')
-        <input type="hidden" name="id" value="{{ $cliente->id }}">
+        <input type="hidden" name="id" value="{{ $funcionario->id }}">
         <div class="d-flex flex-column flex-sm-row justify-content-start align-items-start">
             <div class="flex-grow-1 pe-2">
-                @include('users.shared.fields', ['user' => $cliente->user, 'readonlyData' => false])
-                @include('clientes.shared.fields', ['cliente' => $cliente, 'readonlyData' => false])
+                @include('users.shared.fields', ['user' => $funcionario, 'readonlyData' => false])
                 <div class="my-1 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary" name="ok" form="form_cliente">Guardar
+                    <button type="submit" class="btn btn-primary" name="ok" form="form_funcionario">Guardar
                         Alterações
                     </button>
-                    <a href="{{ route('clientes.show', ['cliente' => $cliente]) }}"
+                    <a href="{{ route('funcionarios.show', ['funcionario' => $funcionario]) }}"
                        class="btn btn-secondary ms-3">Cancelar</a>
                 </div>
             </div>
             <div class="ps-2 mt-5 mt-md-1 d-flex mx-auto flex-column align-items-center justify-content-between"
                  style="min-width:260px; max-width:260px;">
                 @include('users.shared.fields_foto', [
-                    'user' => $cliente->user,
+                    'user' => $funcionario,
                     'allowUpload' => true,
                     'allowDelete' => true,
                 ])
@@ -44,8 +43,8 @@
          'msgLine1' => 'As alterações efetuadas aos dados vão ser perdidas!',
          'msgLine2' => 'Clique no botão "Apagar" para confirmar a operação.',
          'confirmationButton' => 'Apagar',
-         'formActionRoute' => 'clientes.foto.destroy',
-         'formActionRouteParameters' => ['cliente' => $cliente],
+         'formActionRoute' => 'funcionarios.foto.destroy',
+         'formActionRouteParameters' => ['funcionario' => $funcionario],
          'formMethod' => 'DELETE',
     ])
 @endsection

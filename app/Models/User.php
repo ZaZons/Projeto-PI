@@ -64,4 +64,20 @@ class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
             },
         );
     }
+
+    protected function fullTipo(): Attribute {
+        return Attribute::make(
+            get: function () {
+                if ($this->tipo === 'A') {
+                    return 'Administrador';
+                }
+
+                if ($this->tipo === 'F') {
+                    return 'Funcionário';
+                }
+
+                return 'Cliente';
+            },
+        );
+    }
 }

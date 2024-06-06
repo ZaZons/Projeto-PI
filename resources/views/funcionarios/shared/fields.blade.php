@@ -2,7 +2,7 @@
     $disabledStr = $readonlyData ?? false ? 'disabled' : '';
 @endphp
 
-{{--TODO: field metodo de pagamento--}}
+{{--TODO: fields admin e tipo--}}
 <div class="d-flex justify-content-between">
     <div class="mb-3 form-floating flex-grow-1">
         <input type="text" class="form-control @error('nif') is-invalid @enderror" name="nif" id="inputNif"

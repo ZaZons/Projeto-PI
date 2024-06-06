@@ -92,33 +92,15 @@
                         Alunos
                     </a>
 
-                    <div class="sb-sidenav-menu-heading">Recursos Humanos</div>
+                    <div class="sb-sidenav-menu-heading">Gestão</div>
+                    <div aria-labelledby="headingOne">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link {{ Route::currentRouteName() == 'clientes.index' ? 'active' : '' }}"
+                               href="{{ route('clientes.index') }}">Clientes</a>
                             <a class="nav-link {{ Route::currentRouteName() == 'funcionarios.index' ? 'active' : '' }}"
-                               href="{{ route('funcionarios.index') }}">Funcionarios</a>
-                            <a class="nav-link {{ Route::currentRouteName() == 'docentes.index' ? 'active' : '' }}"
-                               href="#">Docentes</a>
+                               href="{{ route('funcionarios.index') }}">Funcionários</a>
                         </nav>
                     </div>
-                    <div class="sb-sidenav-menu-heading">Candidaturas</div>
-                    <a class="nav-link {{ Route::currentRouteName() == 'candidaturas.create' ? 'active' : '' }}"
-                       href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-upload"></i></div>
-                        Enviar candidatura
-                    </a>
-                    <a class="nav-link {{ Route::currentRouteName() == 'candidaturas.index' ? 'active' : '' }}"
-                       href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
-                        Candidaturas
-                    </a>
-                    <div class="sb-sidenav-menu-heading">Espaço Privado</div>
-                    <a class="nav-link {{ Route::currentRouteName() == 'disciplinas.minhas' ? 'active' : '' }}"
-                       href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-file-text"></i></div>
-                        Minhas disciplinas
-                    </a>
-                    <a class="nav-link {{ Route::currentRouteName() == 'cart.show' ? 'active' : '' }}"
-                       href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>Carrinho </a>
                 </div>
             </div>
         </nav>

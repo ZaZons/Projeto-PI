@@ -53,6 +53,6 @@
         'showDelete' => true,
     ])
     <div>
-        {{ $funcionarios->links() }}
+        {{ $funcionarios->withQueryString()->links() }}
     </div>
 @endsection

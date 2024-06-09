@@ -6,6 +6,7 @@
 /public/vendor
 /storage/*.key
 /vendor
+/config/telescope*
 .env
 .env.backup
 .env.production

@@ -27,5 +27,7 @@ Route::delete('funcionarios/{funcionario}/foto', [FuncionariosController::class,
 Route::get('cart/show', [CarrinhoController::class, 'show'])->name('carrinho.show');
 Route::get('cart', [CarrinhoController::class, 'index'])->name('carrinho.index');
 Route::post('cart/{sessao}', [CarrinhoController::class, 'store'])->name('carrinho.store');
-Route::post('cart', [CarrinhoController::class, 'pay'])->name('carrinho.pay');
 Route::delete('cart', [CarrinhoController::class, 'destroy'])->name('carrinho.destroy');
+Route::get('cart/checkout', [CarrinhoController::class, 'checkout'])->name('carrinho.checkout');
+Route::get('cart/pagamento', [CarrinhoController::class, 'pagamento'])->name('carrinho.pagamento');
+Route::post('cart/pagar', [CarrinhoController::class, 'pagar'])->name('carrinho.pagar');

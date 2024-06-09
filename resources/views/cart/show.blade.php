@@ -33,7 +33,7 @@
         <button type="submit" class="btn btn-danger ms-3" name="clear" form="formClear">
             Limpar Carrinho</button>
     </div>
-    <form id="formStore" method="POST" action="" class="d-none">
+    <form id="formStore" method="POST" action="{{ route('carrinho.checkout') }}" class="d-none">
         @csrf
     </form>
     <form id="formClear" method="POST" action="{{ route('carrinho.destroy', ['carrinho' => 'fds']) }}" class="d-none">

@@ -49,6 +49,11 @@
         </div>
         <!-- Navbar-->
         <ul class="navbar-nav me-1 me-lg-3">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('carrinho.index') }}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
@@ -56,8 +61,9 @@
                          height="45">
                 </a>
 
+
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{ Auth::user()->tipo === 'C' ? route('clientes.show', ['cliente' => Auth::user()->cliente]) : route('funcionarios.show', ['funcionario' => Auth::user()])}}">Perfil</a></li>
+                    <li><a class="dropdown-item" href="{{ Auth::user()->tipo === 'C' ? route('clientes.show', ['cliente' => Auth::user()]) : route('funcionarios.show', ['funcionario' => Auth::user()])}}">Perfil</a></li>
                     <li><a class="dropdown-item" href="#">Alterar Senha</a></li>
                     <li>
                         <hr class="dropdown-divider" />

@@ -35,8 +35,10 @@ class ClienteController extends Controller
         return view('clientes.index', compact('clientes', ));
     }
 
-    public function show(Cliente $cliente)
+    public function show(User $user)
     {
+        $cliente = Cliente::query()->where('id', '=', $user->id)->limit(1);
+
         return view('clientes.show', compact('cliente'));
     }
 

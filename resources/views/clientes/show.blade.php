@@ -6,7 +6,6 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Página inicial</a></li>
         <li class="breadcrumb-item"><strong>{{ $cliente->user->name }}</strong></li>
-        <li class="breadcrumb-item active">Perfil</li>
     </ol>
 @endsection
 

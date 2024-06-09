@@ -4,9 +4,9 @@
 
 @section('subtitulo')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('home') }}">Página inicial</a></li>
-        <li class="breadcrumb-item"><strong>{{ $funcionario->name }}</strong></li>
-        <li class="breadcrumb-item active">Perfil</li>
+        <li class="breadcrumb-item">Gestão</li>
+        <li class="breadcrumb-item"><a href="{{ route('funcionarios.index') }}">Funcionários</a></li>
+        <li class="breadcrumb-item active">{{ $funcionario->name }}</li>
     </ol>
 @endsection
 
@@ -14,6 +14,7 @@
     <div class="d-flex flex-column flex-sm-row justify-content-start align-items-start">
         <div class="flex-grow-1 pe-2">
             @include('users.shared.fields', ['user' => $funcionario, 'readonlyData' => true])
+            @include('funcionarios.shared.fields', ['funcionario' => $funcionario, 'readonlyData' => true, 'showBloqueado' => true])
             @if(Auth::user()->tipo === 'A')
                 <div class="my-1 d-flex justify-content-end">
                     <button type="submit" name="delete" class="btn btn-danger" data-bs-toggle="modal"

@@ -27,8 +27,8 @@ class FuncionarioRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email',
             'password_inicial' =>   'sometimes|required',
-//            'tipo' =>              'required|in:A,F',
-//            'bloqueado' => 'required',
+            'tipo' =>              'required|in:A,F',
+            'bloqueado' => 'required|boolean',
         ];
     }
 }

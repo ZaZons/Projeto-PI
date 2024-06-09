@@ -52,10 +52,6 @@ class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
         ];
     }
 
-    public function cliente(): HasOne {
-        return $this->hasOne(Cliente::class, 'id', 'id');
-    }
-
     protected function fullPhotoUrl(): Attribute
     {
         return Attribute::make(

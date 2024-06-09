@@ -17,6 +17,7 @@
             <div class="flex-grow-1 pe-2">
                 @include('users.shared.fields', ['user' => $funcionario, 'readonlyData' => false])
                 @include('funcionarios.shared.fields_password_inicial')
+                @include('funcionarios.shared.fields', ['funcionario' => $funcionario, 'readonlyData' => false, 'showBloqueado' => false])
                 <div class="my-1 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary" name="ok" form="form_funcionario">Guardar novo
                         funcionário</button>

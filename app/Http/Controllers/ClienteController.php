@@ -18,6 +18,23 @@ use Illuminate\View\View;
 
 class ClienteController extends Controller
 {
+    public function index(Request $request): View {
+//        $filterByTipo = $request->tipo ?? '';
+        $filterByNome = $request->nome ?? '';
+        $clientes = Cliente::query();
+
+//        if ($filterByTipo !== '') {
+//            $clientes->where('tipo', $filterByTipo);
+//        }
+//        if ($filterByNome !== '') {
+//            $userIds = User::where('name', 'like', "%$filterByNome%")->pluck('id');
+//            $clientes->whereIntegerInRaw('id', $userIds);
+//        }
+
+        $clientes = $clientes->paginate(10);
+        return view('clientes.index', compact('clientes', ));
+    }
+
     public function show(Cliente $cliente)
     {
         return view('clientes.show', compact('cliente'));

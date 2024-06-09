@@ -92,15 +92,17 @@
                         Alunos
                     </a>
 
-                    <div class="sb-sidenav-menu-heading">Gestão</div>
-                    <div aria-labelledby="headingOne">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link {{ Route::currentRouteName() == 'clientes.index' ? 'active' : '' }}"
-                               href="{{ route('clientes.index') }}">Clientes</a>
-                            <a class="nav-link {{ Route::currentRouteName() == 'funcionarios.index' ? 'active' : '' }}"
-                               href="{{ route('funcionarios.index') }}">Funcionários</a>
-                        </nav>
-                    </div>
+                    @if(Auth::check() && Auth::user()->tipo === 'A')
+                        <div class="sb-sidenav-menu-heading">Gestão</div>
+                        <div aria-labelledby="headingOne">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Route::currentRouteName() == 'clientes.index' ? 'active' : '' }}"
+                                   href="{{ route('clientes.index') }}">Clientes</a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'funcionarios.index' ? 'active' : '' }}"
+                                   href="{{ route('funcionarios.index') }}">Funcionários</a>
+                            </nav>
+                        </div>
+                    @endif
                 </div>
             </div>
         </nav>

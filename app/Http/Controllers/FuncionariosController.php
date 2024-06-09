@@ -19,10 +19,21 @@ use Illuminate\View\View;
 
 class FuncionariosController extends Controller
 {
-    public function index(): View {
-        $funcionarios = User::query()->where('tipo', '!=', 'C')->paginate(10);
+    public function index(Request $request): View {
+        $filterByTipo = $request->tipo ?? '';
+        $filterByNome = $request->nome ?? '';
+        $funcionarios = User::query()->where('tipo', '!=', 'C');
 
-        return view('funcionarios.index', compact('funcionarios'));
+        if ($filterByTipo !== '') {
+            $funcionarios->where('tipo', $filterByTipo);
+        }
+        if ($filterByNome !== '') {
+            $userIds = User::where('name', 'like', "%$filterByNome%")->pluck('id');
+            $funcionarios->whereIntegerInRaw('id', $userIds);
+        }
+
+        $funcionarios = $funcionarios->paginate(10);
+        return view('funcionarios.index', compact('funcionarios', 'filterByTipo', 'filterByNome'));
     }
 
     public function create(): View {
@@ -49,8 +60,8 @@ class FuncionariosController extends Controller
             $newUser->name = $formData['name'];
             $newUser->email = $formData['email'];
             $newUser->password = Hash::make($formData['password_inicial']);
-//            $newUser->tipo = $formData['tipo'];
-//            $newUser->bloqueado = $formData['bloqueado'];
+            $newUser->tipo = $formData['tipo'];
+            $newUser->bloqueado = false;
             $newUser->save();
 
             if ($request->hasFile('file_foto')) {
@@ -74,6 +85,8 @@ class FuncionariosController extends Controller
         $funcionario = DB::transaction(function () use ($formData, $funcionario, $request) {
             $funcionario->name = $formData['name'];
             $funcionario->email = $formData['email'];
+            $funcionario->tipo = $formData['tipo'];
+            $funcionario->bloqueado = $formData['bloqueado'];
             $funcionario->save();
             if ($request->hasFile('file_foto')) {
                 if ($funcionario->foto_url) {

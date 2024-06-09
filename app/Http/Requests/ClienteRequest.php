@@ -31,8 +31,8 @@ class ClienteRequest extends FormRequest
                 'required',
                 'email'
             ],
-            'nif' => 'sometimes|size:9',
-            'file_foto' => 'sometimes|image|max:4096'
+            'nif' => 'nullable|size:9',
+            'file_foto' => 'image|max:4096'
         ];
     }
 

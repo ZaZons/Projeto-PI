@@ -45,7 +45,8 @@ class ClienteController extends Controller
         return view('clientes.edit', compact('cliente'));
     }
 
-    public function store(Request $request) {
+    public function store(ClienteRequest $request): RedirectResponse
+    {
         $formData = $request->validated();
         $cliente = DB::transaction(function () use ($formData, $request) {
             $newUser = new User();

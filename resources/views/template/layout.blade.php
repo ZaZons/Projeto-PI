@@ -37,6 +37,11 @@
                     </a>
                 </li>
             @endif
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('carrinho.index') }}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+            </li>
         </ul>
     @else
         <div class="ms-auto me-0 me-md-2 my-2 my-md-0 navbar-text">

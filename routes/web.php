@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\FilmesController;
 use App\Http\Controllers\FuncionariosController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -29,3 +30,5 @@ Route::get('cart/checkout', [CarrinhoController::class, 'checkout'])->name('carr
 Route::get('cart/pagamento', [CarrinhoController::class, 'pagamento'])->name('carrinho.pagamento');
 Route::post('cart/{pagar}/pagar', [CarrinhoController::class, 'pagar'])->name('carrinho.pagar');
 Route::get('cart/pago', [CarrinhoController::class, 'pago'])->name('carrinho.pago');
+
+Route::resource('filmes', FilmesController::class);

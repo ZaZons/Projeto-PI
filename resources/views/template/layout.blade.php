@@ -88,14 +88,10 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav">
-                    <a class="nav-link" href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
-                        Dashboard
-                    </a>
-                    <a class="nav-link {{ Route::currentRouteName() == 'cursos.plano_curricular' ? 'active' : '' }}"
-                       href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        Planos Curriculares
+                    <a class="nav-link {{ Route::currentRouteName() == 'filmes.index' ? 'active' : '' }}"
+                       href="{{ route('filmes.index') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-film"></i></div>
+                        Filmes
                     </a>
                     <a class="nav-link {{ Route::currentRouteName() == 'alunos.index' ? 'active' : '' }}"
                        href="#">

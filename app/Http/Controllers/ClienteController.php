@@ -145,7 +145,7 @@ class ClienteController extends Controller
             ->with('alert-type', 'success');
     }
 
-    public function bloquear(Request $request, Cliente $cliente): RedirectResponse {
+    public function bloquear(Cliente $cliente): RedirectResponse {
         $user = $cliente->user;
         $user->bloqueado = !$user->bloqueado;
         $user->save();

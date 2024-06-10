@@ -12,9 +12,7 @@
     </div>
     @if($carrinho)
         <div>
-            @foreach($carrinho as $sessao)
-                <p>{{ $sessao }}</p>
-            @endforeach
+            @include('sessoes.shared.table', ['sessoes' => $carrinho])
         </div>
         <div class="my-4 d-flex justify-content-end">
             <button type="submit" class="btn btn-primary" form="formStore">
@@ -31,17 +29,6 @@
     @else
         <div>
             O seu carrinho está vazio
-        </div>
-        <div>
-            @php($sessao = "Sessão teste")
-
-            <form method="POST" action="{{ route('carrinho.store', ['sessao' => $sessao]) }}">
-                @csrf
-                <button type="submit" class="btn btn-success">
-                    <i class="fa-solid fa-cart-plus"></i>
-                    Adicionar sessão teste
-                </button>
-            </form>
         </div>
     @endif
 @endsection

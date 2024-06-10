@@ -18,35 +18,9 @@
             <button type="submit" class="btn btn-primary">Pesquisar</button>
         </form>
     </div>
-
-    <table class="table">
-        <thead class="table-dark">
-        <tr>
-            <th>Filme</th>
-            <th>Data</th>
-            <th>Hora</th>
-            <th>Sala</th>
-            <th>Lugares</th>
-            <th class="button-icon-col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach ($sessoes as $sessao)
-            <tr>
-                <td>{{ $sessao->filme->titulo }}</td>
-                <td>{{ \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }}</td>
-                <td>{{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}</td>
-                <td>{{ $sessao->sala->nome }}</td>
-                <td></td>
-                <td class="button-icon-col">
-                    <a class="btn btn-secondary" href="#">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
+    @include('sessoes.shared.table', [
+        'sessoes' => $sessoes,
+    ])
     <div>
         {{ $sessoes->appends(request()->query())->links() }} <!-- Aqui estamos mantendo os parâmetros de consulta -->
     </div>

@@ -23,6 +23,7 @@ Route::resource('funcionarios', FuncionariosController::class);
 Route::delete('funcionarios/{funcionario}/foto', [FuncionariosController::class, 'destroy_foto'])->name('funcionarios.foto.destroy');
 
 Route::middleware('can:comprar')->group(function() {
+    Route::post('carrinho/{sessao}', [CarrinhoController::class, 'add'])->name('carrinho.add');
     Route::get('carrinho/checkout', [CarrinhoController::class, 'checkout'])->name('carrinho.checkout');
     Route::get('carrinho/pagamento', [CarrinhoController::class, 'pagamento'])->name('carrinho.pagamento');
     Route::post('carrinho/pagar', [CarrinhoController::class, 'pagar'])->name('carrinho.pagar');

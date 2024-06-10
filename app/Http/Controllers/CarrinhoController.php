@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PagamentoRequest;
+use App\Models\Sessoes;
 use App\Services\Payment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,13 +24,13 @@ class CarrinhoController extends Controller
         return view('cart.index', compact('carrinho'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function add(Sessoes $sessao): RedirectResponse
     {
         if (!session()->has('carrinho')) {
            $this->clear();
         }
 
-        session()->push('carrinho', $request->sessao);
+        session()->push('carrinho', $sessao);
 
         return back();
     }

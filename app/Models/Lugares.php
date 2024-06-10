@@ -15,6 +15,10 @@ class Lugares extends Model
     // Relacionamento com a sessão
     public function sessao()
     {
-        return $this->belongsTo(Sessoes::class);
+        return $this->belongsTo(Sessoes::class, 'sala_id','sala_id');
+    }
+    public function bilhetes()
+    {
+        return $this->hasMany(Bilhete::class);
     }
 }

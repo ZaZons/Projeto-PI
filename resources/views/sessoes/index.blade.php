@@ -11,12 +11,12 @@
 
 @section('main')
     <div class="mb-4">
+
         <form action="{{ route('sessoes.index') }}" method="GET" class="d-flex">
-            <input type="date" id="start_date" name="start_date" class="form-control me-2" value="{{ request('start_date') }}" placeholder="Data Inicial">
-            <input type="date" id="end_date" name="end_date" class="form-control me-2" value="{{ request('end_date') }}" placeholder="Data Final">
-            <input type="text" name="search" class="form-control me-2" placeholder="Procurar sessões..." value="{{ request('search') }}">
+            <input type="text" name="filme" class="form-control me-2" placeholder="Procurar sessões por filme..." value="{{ old('filme', $filterByFilme) }}">
             <button type="submit" class="btn btn-primary">Pesquisar</button>
         </form>
+
     </div>
 
     <table class="table">
@@ -26,7 +26,7 @@
             <th>Data</th>
             <th>Hora</th>
             <th>Sala</th>
-            <th>Lugares</th>
+            <th>Lugares Disponíveis</th>
             <th class="button-icon-col"></th>
         </tr>
         </thead>
@@ -37,7 +37,9 @@
                 <td>{{ \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }}</td>
                 <td>{{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}</td>
                 <td>{{ $sessao->sala->nome }}</td>
-                <td></td>
+                <td>
+                    {{ $sessao->lugares_nao_usados->count() }}
+                </td>
                 <td class="button-icon-col">
                     <a class="btn btn-secondary" href="#">
                         <i class="fa-solid fa-cart-shopping"></i>

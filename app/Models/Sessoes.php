@@ -19,7 +19,12 @@ class Sessoes extends Model
         return $this->belongsTo(Sala::class, 'sala_id');
     }
 
-    public function lugaresDisponiveis()
+    public function bilhetes()
+    {
+        return $this->hasMany(Bilhete::class);
+    }
+
+    public function lugares()
     {
         // Se você não tiver um modelo Lugar, ajuste esta relação de acordo com a estrutura do seu banco de dados
         return $this->hasMany(Lugares::class, 'sala_id', 'sala_id');

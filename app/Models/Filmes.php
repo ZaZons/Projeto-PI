@@ -21,4 +21,9 @@ class Filmes extends Model
     {
         return $this->belongsTo(Genero::class, 'genero_code', 'code');
     }
+
+    public function sessoes()
+    {
+        return $this->hasMany(Sessoes::class, 'filmes_id');
+    }
 }

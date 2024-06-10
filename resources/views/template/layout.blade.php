@@ -93,10 +93,10 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-film"></i></div>
                         Filmes
                     </a>
-                    <a class="nav-link {{ Route::currentRouteName() == 'alunos.index' ? 'active' : '' }}"
-                       href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
-                        Alunos
+                    <a class="nav-link {{ Route::currentRouteName() == 'sessoes.index' ? 'active' : '' }}"
+                       href="{{ route('sessoes.index') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                        Sessões
                     </a>
 
                     @if(Auth::check() && Auth::user()->tipo === 'A')

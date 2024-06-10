@@ -15,14 +15,12 @@
             <input type="text" name="search" class="form-control me-2" placeholder="Procurar filmes..." value="{{ request('search') }}">
             <select name="genero" class="form-select me-2">
                 <option value="">Todos os gêneros</option>
-                @foreach($generos as $genero)
-                    <option value="{{ $genero->code }}" {{ request('genero') == $genero->code ? 'selected' : '' }}>{{ $genero->nome }}</option>
+                @foreach($generos as $code => $nome)
+                    <option value="{{ $code }}" {{ request('genero') == $code ? 'selected' : '' }}>{{ $nome }}</option>
                 @endforeach
             </select>
             <button type="submit" class="btn btn-primary">Pesquisar</button>
         </form>
-    </div>
-
     </div>
 
     <table class="table">
@@ -38,16 +36,19 @@
         @foreach ($filmes as $filme)
             <tr>
                 <td>{{ $filme->titulo }}</td>
-                <td>{{ $filme->genero_code }}</td>
+                <td>{{ $filme->genero->nome }}</td>
                 <td>{{ $filme->ano }}</td>
-                <td class="button-icon-col"><a class="btn btn-secondary"
-                                               href="{{ route('filmes.show', ['filme' => $filme]) }}">
-                        <i class="fas fa-eye"></i></a></td>
+                <td class="button-icon-col">
+                    <a class="btn btn-secondary"
+                       href="{{ route('filmes.show', ['filme' => $filme, 'page' => request()->get('page', 1)]) }}">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </td>
             </tr>
         @endforeach
         </tbody>
     </table>
     <div>
-        {{ $filmes->links() }}
+        {{ $filmes->appends(['search' => request('search'), 'genero' => request('genero')])->links() }}
     </div>
 @endsection

@@ -4,7 +4,7 @@
 
 @section('subtitulo')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('filmes.index') }}">Filmes</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('filmes.index', ['page' => request()->get('page', 1)]) }}">Filmes</a></li>
         <li class="breadcrumb-item active">{{ $filme->titulo }}</li>
     </ol>
 @endsection
@@ -13,7 +13,7 @@
     <div class="row mb-3">
         <div class="col-md-8">
             <h2>{{ $filme->titulo }}</h2>
-            <p><strong>Género:</strong> {{ $filme->genero_code }}</p>
+            <p><strong>Género:</strong> {{ $filme->genero->nome }}</p>
             <p><strong>Ano:</strong> {{ $filme->ano }}</p>
             <p><strong>Sumário:</strong> {{ $filme->sumario }}</p>
             <p><strong>Trailer:</strong></p>
@@ -30,8 +30,43 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <a href="{{ route('filmes.index') }}" class="btn btn-primary">Voltar</a>
+        <div class="col-md-12">
+            <h3>Sessões</h3>
+            @if($sessoes->isEmpty())
+                <p>Não há sessões futuras para este filme.</p>
+            @else
+                <table class="table">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Sala</th>
+                        <th>Disponibilidade</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($sessoes as $sessao)
+                        <tr>
+                            <td>{{ \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}</td>
+                            <td>{{ $sessao->sala->nome }}</td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <div>
+                    {{ $sessoes->links() }}
+                </div>
+            @endif
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a href="{{ route('filmes.index', ['page' => request()->get('page', 1)]) }}" class="btn btn-primary">Voltar</a>
+        </div>
+    </div>
+    <br>
 @endsection

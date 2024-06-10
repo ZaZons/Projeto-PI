@@ -5,6 +5,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\FilmesController;
 use App\Http\Controllers\FuncionariosController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SessoesController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,3 +33,5 @@ Route::post('cart/{pagar}/pagar', [CarrinhoController::class, 'pagar'])->name('c
 Route::get('cart/pago', [CarrinhoController::class, 'pago'])->name('carrinho.pago');
 
 Route::resource('filmes', FilmesController::class);
+
+Route::resource('sessoes', SessoesController::class);

@@ -15,7 +15,7 @@ class CarrinhoController extends Controller
 
     public function index(): View {
         if (!session()->has('carrinho')) {
-            $this->initializeCarrinho();
+            $this->clear();
         }
 
         $carrinho = session('carrinho');
@@ -23,40 +23,18 @@ class CarrinhoController extends Controller
         return view('cart.index', compact('carrinho'));
     }
 
-    public function show(): View {
-        if (!session()->has('carrinho')) {
-            $this->initializeCarrinho();
-        }
-
-        $carrinho = session('carrinho');
-
-        return view('cart.show', compact('carrinho'));
-    }
-
-    public function store($sessao): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         if (!session()->has('carrinho')) {
-        $this->initializeCarrinho();
+           $this->clear();
         }
-//        $this->initializeCarrinho();
-        session()->push('carrinho', $sessao);
+
+        session()->push('carrinho', $request->sessao);
 
         return back();
     }
 
     public function checkout(): View {
-//        if (!Auth::check()) {
-//            return redirect()->route('login')
-//                ->with('alert-msg', "Inicie sessão para realizar a compra dos bilhetes")
-//                ->with('alert-type', 'warning');
-//        }
-//
-//        if (Auth::user()->tipo != 'C') {
-//            return back()
-//                ->with('alert-msg', "Apenas clientes podem comprar bilhetes")
-//                ->with('alert-type', 'warning');
-//        }
-
         return view('cart.checkout');
     }
 
@@ -79,9 +57,10 @@ class CarrinhoController extends Controller
         }
 
         if ($paymentWorking) {
+            $this->clear();
             return redirect()->route('carrinho.pago');
         }
-        
+
         return back()
             ->with('alert-msg', 'Pagamento não aceite, verifique os seus dados')
             ->with('alert-type', 'warning');
@@ -91,14 +70,10 @@ class CarrinhoController extends Controller
         return view('cart.pago');
     }
 
-    public function destroy(): RedirectResponse {
-        $this->initializeCarrinho();
-
-        return back();
-    }
-
-    protected function initializeCarrinho(): void
+    protected function clear(): RedirectResponse
     {
         session()->put('carrinho', []);
+
+        return back();
     }
 }

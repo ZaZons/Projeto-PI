@@ -27,7 +27,7 @@
     </div>
     <div class="my-4 d-flex justify-content-end">
         <a class="btn btn-primary" href="{{ route('carrinho.index') }}">Confirmar Sessões</a>
-        <button type="submit" class="btn btn-danger ms-3" name="clear" form="formClear">
+        <button type="submit" class="btn btn-danger ms-3" form="formClear">
             Limpar Carrinho</button>
     </div>
     <form id="formClear" method="POST" action="{{ route('carrinho.destroy', ['carrinho' => 'fds']) }}" class="d-none">

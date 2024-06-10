@@ -24,13 +24,24 @@
         </div>
         <form id="formStore" method="GET" action="{{ route('carrinho.checkout') }}" class="d-none">
         </form>
-        <form id="formClear" method="POST" action="{{ route('carrinho.destroy') }}" class="d-none">
+        <form id="formClear" method="POST" action="{{ route('carrinho.clear') }}" class="d-none">
             @csrf
             @method('DELETE')
         </form>
     @else
         <div>
             O seu carrinho está vazio
+        </div>
+        <div>
+            @php($sessao = "Sessão teste")
+
+            <form method="POST" action="{{ route('carrinho.store', ['sessao' => $sessao]) }}">
+                @csrf
+                <button type="submit" class="btn btn-success">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    Adicionar sessão teste
+                </button>
+            </form>
         </div>
     @endif
 @endsection

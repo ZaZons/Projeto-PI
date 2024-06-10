@@ -37,11 +37,6 @@
                     </a>
                 </li>
             @endif
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('carrinho.index') }}">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </a>
-            </li>
         </ul>
     @else
         <div class="ms-auto me-0 me-md-2 my-2 my-md-0 navbar-text">
@@ -49,11 +44,6 @@
         </div>
         <!-- Navbar-->
         <ul class="navbar-nav me-1 me-lg-3">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('carrinho.index') }}">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </a>
-            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
@@ -61,13 +51,10 @@
                          height="45">
                 </a>
 
-
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{ Auth::user()->tipo === 'C' ? route('clientes.show', ['cliente' => Auth::user()]) : route('funcionarios.show', ['funcionario' => Auth::user()])}}">Perfil</a></li>
-                    <li><a class="dropdown-item" href="#">Alterar Senha</a></li>
-                    <li>
-                        <hr class="dropdown-divider" />
-                    </li>
+                    @if (Auth::user()->tipo == 'C')
+                        <li><a class="dropdown-item" href="{{route('clientes.show', ['cliente' => Auth::user()])}}">Perfil</a></li>
+                    @endif
                     <li>
                         <a class="dropdown-item"
                            onclick="event.preventDefault();
@@ -93,11 +80,18 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-film"></i></div>
                         Filmes
                     </a>
-                    <a class="nav-link {{ Route::currentRouteName() == 'alunos.index' ? 'active' : '' }}"
-                       href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
-                        Alunos
-                    </a>
+                    @if(Auth::check() && Auth::user()->tipo === 'C')
+                        <div class="sb-sidenav-menu-heading">Espaço Privado</div>
+                        <div aria-labelledby="headingOne">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}"
+                                   href="{{ route('carrinho.index') }}">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    Carrinho
+                                </a>
+                            </nav>
+                        </div>
+                    @endif
 
                     @if(Auth::check() && Auth::user()->tipo === 'A')
                         <div class="sb-sidenav-menu-heading">Gestão</div>

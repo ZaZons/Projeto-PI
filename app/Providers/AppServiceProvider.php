@@ -24,8 +24,8 @@ class   AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootStrapFive();
 
-        Gate::define('verPerfil', function(User $user) {
-            return $user->tipo != 'F';
+        Gate::define('comprar', function(User $user) {
+            return $user->tipo == 'C';
         });
     }
 }

@@ -27,7 +27,7 @@ class Payment
         if (($cvc_code<100) || ($cvc_code>999))  {
             return false;
         }
-        return ($card_number % 10 != 2) && ($cvc_code % 10 != 2);
+        return true;
     }
 
     // Invalid Payments with Paypal:

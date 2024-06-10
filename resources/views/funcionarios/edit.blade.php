@@ -22,7 +22,7 @@
                 @include('users.shared.fields', ['user' => $funcionario, 'readonlyData' => false])
                 @include('funcionarios.shared.fields', ['funcionario' => $funcionario, 'readonlyData' => false, 'showBloqueado' => true])
                 <div class="my-1 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary" name="ok" form="form_funcionario">Guardar
+                    <button type="submit" class="btn btn-primary" form="form_funcionario">Guardar
                         Alterações
                     </button>
                     <a href="{{ route('funcionarios.show', ['funcionario' => $funcionario]) }}"

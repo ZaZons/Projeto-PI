@@ -11,7 +11,7 @@
 @endsection
 
 @section('main')
-    <form id="form_funcionario" method="POST" action="{{ route('funcionarios.store') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('funcionarios.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="d-flex flex-column flex-sm-row justify-content-start align-items-start">
             <div class="flex-grow-1 pe-2">
@@ -19,7 +19,7 @@
                 @include('funcionarios.shared.fields_password_inicial')
                 @include('funcionarios.shared.fields', ['funcionario' => $funcionario, 'readonlyData' => false, 'showBloqueado' => false])
                 <div class="my-1 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary" name="ok" form="form_funcionario">Guardar novo
+                    <button type="submit" class="btn btn-primary" form="form_funcionario">Guardar novo
                         funcionário</button>
                     <a href="{{ route('funcionarios.create', ['funcionario' => $funcionario]) }}"
                        class="btn btn-secondary ms-3">Cancelar</a>

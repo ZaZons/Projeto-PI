@@ -9,10 +9,11 @@
     </ol>
 @endsection
 @section('main')
-    <form id="formPagamento" method="POST" action="{{ route('carrinho.pagar') }}">
+    <form method="POST" action="{{ route('carrinho.pagar') }}">
         @csrf
         <div class="d-flex flex-column flex-sm-row justify-content-start align-items-start">
             <div class="flex-grow-1 pe-2 col-6">
+                <div class="d-none"><input type="text" name="metodo" value="{{ $metodo }}"></div>
                 @if($metodo == 'VISA')
                     <div class="mb-3 form-floating col-6">
                         <input type="text" class="form-control @error('number') is-invalid @enderror" name="number" id="inputNumber">

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PagamentoRequest;
+use App\Services\Payment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +37,7 @@ class CarrinhoController extends Controller
     {
         if (!session()->has('carrinho')) {
         $this->initializeCarrinho();
-    }
+        }
 //        $this->initializeCarrinho();
         session()->push('carrinho', $sessao);
 
@@ -64,10 +66,29 @@ class CarrinhoController extends Controller
         return view('cart.pagamento', compact('metodo'));
     }
 
-    public function pagar() {
+    public function pagar(Request $request): RedirectResponse {
+        $metodo = $request->metodo;
+        $paymentWorking = false;
 
+        if ($metodo == 'VISA') {
+            $paymentWorking = Payment::payWithVisa($request->number, $request->cvc);
+        } elseif ($metodo == 'PAYPAL') {
+            $paymentWorking = Payment::payWithPaypal($request->email);
+        } elseif ($metodo == 'MBWAY') {
+            $paymentWorking = Payment::payWithMBway($request->telemovel);
+        }
+
+        if ($paymentWorking) {
+            return redirect()->route('carrinho.pago');
+        }
+        
+        return back()
+            ->with('alert-msg', 'Pagamento não aceite, verifique os seus dados')
+            ->with('alert-type', 'warning');
+    }
+
+    public function pago(): View {
         return view('cart.pago');
-//        return 'bom dia suki';
     }
 
     public function destroy(): RedirectResponse {

@@ -17,25 +17,19 @@
                 $sessao = "Sessao nº $i";
             @endphp
             <p>{{ $sessao }}</p>
-            <td class="button-icon-col">
-                <form method="POST" action="{{ route('carrinho.store', ['sessao' => $sessao]) }}">
-                    @csrf
-                    <button type="submit" name="addToCart" class="btn btn-success">
-                        <i class="fa-solid fa-cart-plus"></i></button>
-                </form>
-            </td>
+            <form method="POST" action="{{ route('carrinho.store', ['sessao' => $sessao]) }}">
+                @csrf
+                <button type="submit" name="addToCart" class="btn btn-success">
+                    <i class="fa-solid fa-cart-plus"></i></button>
+            </form>
         @endfor
 
     </div>
     <div class="my-4 d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary" name="ok" form="formStore">
-            Confirmar Sessões</button>
+        <a class="btn btn-primary" href="{{ route('carrinho.index') }}">Confirmar Sessões</a>
         <button type="submit" class="btn btn-danger ms-3" name="clear" form="formClear">
             Limpar Carrinho</button>
     </div>
-    <form id="formStore" method="POST" action="{{ route('carrinho.checkout') }}" class="d-none">
-        @csrf
-    </form>
     <form id="formClear" method="POST" action="{{ route('carrinho.destroy', ['carrinho' => 'fds']) }}" class="d-none">
         @csrf
         @method('DELETE')

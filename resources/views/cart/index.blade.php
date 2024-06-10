@@ -17,13 +17,12 @@
             @endforeach
         </div>
         <div class="my-4 d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" name="ok" form="formStore">
+            <button type="submit" class="btn btn-primary" form="formStore">
                 Confirmar Sessões</button>
             <button type="submit" class="btn btn-danger ms-3" name="clear" form="formClear">
                 Limpar Carrinho</button>
         </div>
         <form id="formStore" method="GET" action="{{ route('carrinho.checkout') }}" class="d-none">
-            @csrf
         </form>
         <form id="formClear" method="POST" action="{{ route('carrinho.destroy') }}" class="d-none">
             @csrf

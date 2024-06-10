@@ -22,7 +22,7 @@
                 @include('users.shared.fields', ['user' => $cliente->user, 'readonlyData' => false])
                 @include('clientes.shared.fields', ['cliente' => $cliente, 'readonlyData' => false])
                 <div class="my-1 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary" name="ok" form="form_cliente">Guardar
+                    <button type="submit" class="btn btn-primary" form="form_cliente">Guardar
                         Alterações
                     </button>
                     <a href="{{ route('clientes.show', ['cliente' => $cliente]) }}"

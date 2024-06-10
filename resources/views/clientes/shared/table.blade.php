@@ -4,7 +4,7 @@
         <th></th>
         <th>Nome</th>
         <th>Email</th>
-        <th class="button-icon-col"></th>
+        <th>Bloqueado</th>
         <th class="button-icon-col"></th>
         <th class="button-icon-col ml-1"></th>
     </tr>
@@ -17,12 +17,20 @@
                      height="45"></td>
             <td>{{ $cliente->user->name }}</td>
             <td>{{ $cliente->user->email }}</td>
-            <td class="button-icon-col"><a class="btn btn-secondary"
-                                           href="{{ route('clientes.show', ['cliente' => $cliente, 'accessType' => $accessType]) }}">
-                    <i class="fas fa-eye"></i></a></td>
-            <td class="button-icon-col"><a class="btn btn-dark"
-                                           href="{{ route('clientes.edit', ['cliente' => $cliente, 'accessType' => $accessType]) }}">
-                    <i class="fas fa-edit"></i></a></td>
+            <td>{{ $cliente->user->bloqueado ? 'Sim' : 'Não' }}</td>
+            <td class="button-icon-col">
+                <form method="POST" action="{{ route('clientes.bloquear', ['cliente' => $cliente]) }}">
+                    @csrf
+                    @method('PUT')
+
+                    <button type="submit" class="btn btn-dark">
+                        @if($cliente->user->bloqueado)
+                            <i class="fa-solid fa-check"></i>
+                        @else
+                            <i class="fa-solid fa-ban"></i>
+                        @endif
+                    </button>
+                </form>
             <td class="button-icon-col">
                 <form method="POST" action="{{ route('clientes.destroy', ['cliente' => $cliente]) }}">
                     @csrf

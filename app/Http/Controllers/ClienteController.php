@@ -18,11 +18,17 @@ use Illuminate\View\View;
 
 class ClienteController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Cliente::class, 'cliente');
+    }
+
     public function index(Request $request): View {
 //        $filterByTipo = $request->tipo ?? '';
         $filterByNome = $request->nome ?? '';
         $clientes = Cliente::query();
 
+        // TODO: filtros cliente
 //        if ($filterByTipo !== '') {
 //            $clientes->where('tipo', $filterByTipo);
 //        }
@@ -35,15 +41,14 @@ class ClienteController extends Controller
         return view('clientes.index', compact('clientes', ));
     }
 
-    public function show(User $user)
+    public function show(Cliente $cliente)
     {
-        $cliente = Cliente::query()->where('id', '=', $user->id)->limit(1);
-
         return view('clientes.show', compact('cliente'));
     }
 
     public function edit(Cliente $cliente): View
     {
+        $this->authorize('edit', $cliente);
         return view('clientes.edit', compact('cliente'));
     }
 
@@ -119,7 +124,7 @@ class ClienteController extends Controller
                     ->with('alert-msg', 'Conta apagada com sucesso')
                     ->with('alert-type', 'success');
         } catch (\Exception $error) {
-            $htmlMessage = "Não foi possível apagar a sua conta porque ocorreu um erro!";
+            $htmlMessage = "Não foi possível apagar a sua conta porque ocorreu um erro! $error";
             $alertType = 'danger';
 
             return redirect()->route('clientes.show', ['cliente' => $cliente])
@@ -137,6 +142,16 @@ class ClienteController extends Controller
 
         return redirect()->route('clientes.edit', ['cliente' => $cliente])
             ->with('alert-msg', 'Foto removida!')
+            ->with('alert-type', 'success');
+    }
+
+    public function bloquear(Request $request, Cliente $cliente): RedirectResponse {
+        $user = $cliente->user;
+        $user->bloqueado = !$user->bloqueado;
+        $user->save();
+
+        return redirect()->back()
+            ->with('alert-msg', "Cliente atualizado com sucesso!")
             ->with('alert-type', 'success');
     }
 }

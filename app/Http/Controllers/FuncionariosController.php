@@ -19,6 +19,10 @@ use Illuminate\View\View;
 
 class FuncionariosController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     public function index(Request $request): View {
         $filterByTipo = $request->tipo ?? '';
         $filterByNome = $request->nome ?? '';

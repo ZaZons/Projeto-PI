@@ -80,6 +80,11 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-film"></i></div>
                         Filmes
                     </a>
+                    <a class="nav-link {{ Route::currentRouteName() == 'sessoes.index' ? 'active' : '' }}"
+                       href="{{ route('sessoes.index') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                        Sessões
+                    </a>
                     @if(Auth::check() && Auth::user()->tipo === 'C')
                         <div class="sb-sidenav-menu-heading">Espaço Privado</div>
                         <div aria-labelledby="headingOne">

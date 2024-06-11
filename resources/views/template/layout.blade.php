@@ -85,6 +85,11 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-ticket"></i></div>
                         Bilhetes
                     </a>
+                    <a class="nav-link {{ Route::currentRouteName() == 'historico.index' ? 'active' : '' }}"
+                       href="{{ route('historico.index') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-ticket"></i></div>
+                        Histórico
+                    </a>
                     @if(Auth::check() && Auth::user()->tipo === 'C')
                         <div class="sb-sidenav-menu-heading">Espaço Privado</div>
                         <div aria-labelledby="headingOne">

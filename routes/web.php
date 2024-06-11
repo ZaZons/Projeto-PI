@@ -4,6 +4,7 @@ use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\FilmesController;
 use App\Http\Controllers\FuncionariosController;
+use App\Http\Controllers\HistoricoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SessoesController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -37,3 +38,5 @@ Route::middleware('can:comprar')->group(function() {
 Route::resource('filmes', FilmesController::class);
 
 Route::resource('sessoes', SessoesController::class);
+
+Route::resource('historico', HistoricoController::class);

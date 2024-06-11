@@ -22,6 +22,6 @@
         'sessoes' => $sessoes,
     ])
     <div>
-        {{ $sessoes->appends(request()->query())->links() }} <!-- Aqui estamos mantendo os parâmetros de consulta -->
+        {{ $sessoes->appends(request()->query())->links() }}
     </div>
 @endsection

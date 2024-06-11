@@ -16,7 +16,15 @@
             <td>{{ \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }}</td>
             <td>{{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}</td>
             <td>{{ $sessao->sala->nome }}</td>
-            <td></td>
+            <td>
+                @if ($sessao->lugares_disponiveis == 1)
+                    {{ $sessao->lugares_disponiveis }} lugar disponível
+                @elseif($sessao->lugares_disponiveis > 1)
+                    {{ $sessao->lugares_disponiveis }} lugares disponíveis
+                @else
+                    Esgotado
+                @endif
+            </td>
             <td>
                 <form method="POST" action="{{ route('carrinho.add', ['sessao' => $sessao]) }}">
                     @csrf

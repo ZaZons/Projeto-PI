@@ -10,6 +10,6 @@ class Sala extends Model
 {
     public function sessoes()
     {
-        return $this->hasMany(Sessao::class, 'sala_id');
+        return $this->hasMany(Sessoes::class, 'sala_id');
     }
 }

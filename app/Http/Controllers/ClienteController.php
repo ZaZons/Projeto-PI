@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AlunoRequest;
 use App\Http\Requests\ClienteRequest;
-use App\Models\Aluno;
 use App\Models\Cliente;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -24,21 +20,16 @@ class ClienteController extends Controller
     }
 
     public function index(Request $request): View {
-//        $filterByTipo = $request->tipo ?? '';
         $filterByNome = $request->nome ?? '';
         $clientes = Cliente::query();
 
-        // TODO: filtros cliente
-//        if ($filterByTipo !== '') {
-//            $clientes->where('tipo', $filterByTipo);
-//        }
-//        if ($filterByNome !== '') {
-//            $userIds = User::where('name', 'like', "%$filterByNome%")->pluck('id');
-//            $clientes->whereIntegerInRaw('id', $userIds);
-//        }
+        if ($filterByNome !== '') {
+            $userIds = User::where('name', 'like', "%$filterByNome%")->pluck('id');
+            $clientes->whereIntegerInRaw('id', $userIds);
+        }
 
         $clientes = $clientes->paginate(10);
-        return view('clientes.index', compact('clientes', ));
+        return view('clientes.index', compact('clientes', 'filterByNome'));
     }
 
     public function show(Cliente $cliente)
@@ -52,40 +43,13 @@ class ClienteController extends Controller
         return view('clientes.edit', compact('cliente'));
     }
 
-    public function store(ClienteRequest $request): RedirectResponse
-    {
-        $formData = $request->validated();
-        $cliente = DB::transaction(function () use ($formData, $request) {
-            $newUser = new User();
-            $newUser->name = $formData['name'];
-            $newUser->email = $formData['email'];
-            $newUser->password = Hash::make($formData['password']);
-            $newUser->tipo = 'C';
-            $newUser->save();
-            $newCliente = new Cliente();
-            $newCliente->id = $newUser->id;
-            $newCliente->save();
-
-            if ($request->hasFile('file_foto')) {
-                $path = $request->file_foto->store('public/fotos');
-                $newUser->foto_url = basename($path);
-                $newUser->save();
-            }
-            return $newCliente;
-        });
-        $url = route('clientes.show', ['cliente' => $cliente]);
-        $htmlMessage = "Cliente <a href='$url'>#{$cliente->id}</a>
-                        <strong>\"{$cliente->user->name}\"</strong> foi criado com sucesso!";
-        return redirect()->route('home')
-            ->with('alert-msg', $htmlMessage)
-            ->with('alert-type', 'success');
-    }
-
     public function update(ClienteRequest $request, Cliente $cliente): RedirectResponse
     {
         $formData = $request->validated();
         $cliente = DB::transaction(function () use ($formData, $cliente, $request) {
             $cliente->nif = $formData['nif'];
+            $cliente->ref_pagamento = $formData['refPagamento'];
+            $cliente->tipo_pagamento = $formData['tipoPagamento'];
             $cliente->save();
             $user = $cliente->user;
             $user->name = $formData['name'];
@@ -146,6 +110,7 @@ class ClienteController extends Controller
     }
 
     public function bloquear(Cliente $cliente): RedirectResponse {
+        $this->authorize('edit', $cliente);
         $user = $cliente->user;
         $user->bloqueado = !$user->bloqueado;
         $user->save();
@@ -153,5 +118,12 @@ class ClienteController extends Controller
         return redirect()->back()
             ->with('alert-msg', "Cliente atualizado com sucesso!")
             ->with('alert-type', 'success');
+    }
+
+    public static function updatePagamento(string $tipo, string $ref, int $id): void {
+        $cliente = Cliente::query()->where('id', $id);
+
+        $cliente->tipo_pagamento = $tipo;
+        $cliente->ref_pagamento = $ref;
     }
 }

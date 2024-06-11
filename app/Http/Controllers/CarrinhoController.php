@@ -45,19 +45,28 @@ class CarrinhoController extends Controller
         return view('cart.pagamento', compact('metodo'));
     }
 
+    // TODO: gravar metodo de pagamento
     public function pagar(Request $request): RedirectResponse {
         $metodo = $request->metodo;
+        $guardarMetodo = $request->guardarMetodo ?? null;
         $paymentWorking = false;
+        $ref = '';
 
         if ($metodo == 'VISA') {
-            $paymentWorking = Payment::payWithVisa($request->number, $request->cvc);
+            $ref = $request->number;
+            $paymentWorking = Payment::payWithVisa($ref, $request->cvc);
         } elseif ($metodo == 'PAYPAL') {
-            $paymentWorking = Payment::payWithPaypal($request->email);
+            $ref = $request->email;
+            $paymentWorking = Payment::payWithPaypal($ref);
         } elseif ($metodo == 'MBWAY') {
-            $paymentWorking = Payment::payWithMBway($request->telemovel);
+            $ref = $request->telemovel;
+            $paymentWorking = Payment::payWithMBway($ref);
         }
 
         if ($paymentWorking) {
+            if ($guardarMetodo) {
+                ClienteController::updatePagamento($metodo, $ref, Auth::user()->id);
+            }
             $this->clear();
             return redirect()->route('carrinho.pago');
         }

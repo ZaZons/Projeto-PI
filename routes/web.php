@@ -22,15 +22,17 @@ Route::put('clientes/{cliente}/bloquear', [ClienteController::class, 'bloquear']
 Route::resource('funcionarios', FuncionariosController::class);
 Route::delete('funcionarios/{funcionario}/foto', [FuncionariosController::class, 'destroy_foto'])->name('funcionarios.foto.destroy');
 
-//Route::middleware(['auth', 'cliente'])
-Route::get('cart/show', [CarrinhoController::class, 'show'])->name('carrinho.show');
-Route::get('cart', [CarrinhoController::class, 'index'])->name('carrinho.index');
-Route::post('cart', [CarrinhoController::class, 'store'])->name('carrinho.store');
-Route::delete('cart', [CarrinhoController::class, 'destroy'])->name('carrinho.destroy');
-Route::get('cart/checkout', [CarrinhoController::class, 'checkout'])->name('carrinho.checkout');
-Route::get('cart/pagamento', [CarrinhoController::class, 'pagamento'])->name('carrinho.pagamento');
-Route::post('cart/{pagar}/pagar', [CarrinhoController::class, 'pagar'])->name('carrinho.pagar');
-Route::get('cart/pago', [CarrinhoController::class, 'pago'])->name('carrinho.pago');
+Route::middleware('can:comprar')->group(function() {
+    Route::post('carrinho/pagar', [CarrinhoController::class, 'pagar'])->name('carrinho.pagar');
+    Route::post('carrinho/{sessao}', [CarrinhoController::class, 'add'])->name('carrinho.add');
+    Route::get('carrinho/checkout', [CarrinhoController::class, 'checkout'])->name('carrinho.checkout');
+    Route::get('carrinho/pagamento', [CarrinhoController::class, 'pagamento'])->name('carrinho.pagamento');
+    Route::get('cart/pago', [CarrinhoController::class, 'pago'])->name('carrinho.pago');
+
+    Route::resource('carrinho', CarrinhoController::class);
+    Route::delete('carrinho', [CarrinhoController::class, 'clear'])->name('carrinho.clear');
+});
+
 
 Route::resource('filmes', FilmesController::class);
 

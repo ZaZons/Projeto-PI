@@ -12,9 +12,7 @@
     </div>
     @if($carrinho)
         <div>
-            @foreach($carrinho as $sessao)
-                <p>{{ $sessao }}</p>
-            @endforeach
+            @include('sessoes.shared.table', ['sessoes' => $carrinho])
         </div>
         <div class="my-4 d-flex justify-content-end">
             <button type="submit" class="btn btn-primary" form="formStore">
@@ -24,7 +22,7 @@
         </div>
         <form id="formStore" method="GET" action="{{ route('carrinho.checkout') }}" class="d-none">
         </form>
-        <form id="formClear" method="POST" action="{{ route('carrinho.destroy') }}" class="d-none">
+        <form id="formClear" method="POST" action="{{ route('carrinho.clear') }}" class="d-none">
             @csrf
             @method('DELETE')
         </form>

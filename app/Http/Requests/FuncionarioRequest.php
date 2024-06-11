@@ -31,4 +31,17 @@ class FuncionarioRequest extends FormRequest
             'bloqueado' => 'required|boolean',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' =>  'O nome é obrigatório',
+            'email.required' => 'O email é obrigatório',
+            'email.email' =>    'O formato do email é inválido',
+            'password_inicial.required' => 'A password inicial é obrigatória',
+            'tipo.required' => 'O tipo é obrigatório',
+            'tipo.in' => 'O tipo tem de ser Administrador ou Funcionário',
+            'bloqueado.required' => 'O formato do bloqueio é inválido',
+        ];
+    }
 }

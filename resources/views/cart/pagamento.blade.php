@@ -61,6 +61,10 @@
                         @enderror
                     </div>
                 @endif
+                <div class="mb-3 form-floating">
+                    <input type="checkbox" name="guardarMetodo" id="guardarMetodo1">
+                    <label for="guardarMetodo1" class="form-label">Guardar método de pagamento</label>
+                </div>
             </div>
         </div>
         <div class="my-4 d-flex justify-content-end col-6">

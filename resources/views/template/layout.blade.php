@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Projeto de PI</title>
+    <title>CINEMATIC</title>
     @vite('resources/sass/app.scss')
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -15,8 +15,8 @@
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand " href="{{ route('home') }}">
-        <img src="/img/logo.svg" alt="Logo" class="bg-dark" width="140" height="52">
+    <a class="navbar-brand ms-3" href="{{ route('home') }}">
+        CINEMATIC
     </a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-3 me-lg-0" id="sidebarToggle" href="#"><i
@@ -37,11 +37,6 @@
                     </a>
                 </li>
             @endif
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('carrinho.index') }}">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </a>
-            </li>
         </ul>
     @else
         <div class="ms-auto me-0 me-md-2 my-2 my-md-0 navbar-text">
@@ -49,11 +44,6 @@
         </div>
         <!-- Navbar-->
         <ul class="navbar-nav me-1 me-lg-3">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('carrinho.index') }}">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </a>
-            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
@@ -61,13 +51,10 @@
                          height="45">
                 </a>
 
-
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{ Auth::user()->tipo === 'C' ? route('clientes.show', ['cliente' => Auth::user()]) : route('funcionarios.show', ['funcionario' => Auth::user()])}}">Perfil</a></li>
-                    <li><a class="dropdown-item" href="#">Alterar Senha</a></li>
-                    <li>
-                        <hr class="dropdown-divider" />
-                    </li>
+                    @if (Auth::user()->tipo == 'C')
+                        <li><a class="dropdown-item" href="{{route('clientes.show', ['cliente' => Auth::user()])}}">Perfil</a></li>
+                    @endif
                     <li>
                         <a class="dropdown-item"
                            onclick="event.preventDefault();
@@ -95,9 +82,21 @@
                     </a>
                     <a class="nav-link {{ Route::currentRouteName() == 'sessoes.index' ? 'active' : '' }}"
                        href="{{ route('sessoes.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        Sessões
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-ticket"></i></div>
+                        Bilhetes
                     </a>
+                    @if(Auth::check() && Auth::user()->tipo === 'C')
+                        <div class="sb-sidenav-menu-heading">Espaço Privado</div>
+                        <div aria-labelledby="headingOne">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}"
+                                   href="{{ route('carrinho.index') }}">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    Carrinho
+                                </a>
+                            </nav>
+                        </div>
+                    @endif
 
                     @if(Auth::check() && Auth::user()->tipo === 'A')
                         <div class="sb-sidenav-menu-heading">Gestão</div>
@@ -123,20 +122,13 @@
                 @if ($errors->any())
                     @include('shared.alertValidation')
                 @endif
-                <h1 class="mt-4">@yield('titulo', 'Politécnico de Leiria')</h1>
+                <h1 class="mt-4">@yield('titulo', 'CINEMATIC')</h1>
                 @yield('subtitulo')
                 <div class="mt-4">
                     @yield('main')
                 </div>
             </div>
         </main>
-        <footer class="py-2 bg-light mt-auto">
-            <div class="container-fluid px-4">
-                <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy;Politécnico de Leiria 2023</div>
-                </div>
-            </div>
-        </footer>
     </div>
 </div>
 @vite('resources/js/app.js')

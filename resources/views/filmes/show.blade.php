@@ -51,7 +51,13 @@
                             <td>{{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}</td>
                             <td>{{ $sessao->sala->nome }}</td>
                             <td>
-
+                                @if ($sessao->lugares_disponiveis == 1)
+                                    {{ $sessao->lugares_disponiveis }} lugar disponível
+                                @elseif($sessao->lugares_disponiveis > 1)
+                                    {{ $sessao->lugares_disponiveis }} lugares disponíveis
+                                @else
+                                    Esgotado
+                                @endif
                             </td>
                         </tr>
                     @endforeach

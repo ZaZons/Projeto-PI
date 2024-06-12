@@ -16,4 +16,9 @@ class Recibo extends Model
     public function cliente(): BelongsTo {
         return $this->belongsTo(Cliente::class);
     }
+
+    public function bilhetes()
+    {
+        return $this->hasMany(Bilhete::class);
+    }
 }

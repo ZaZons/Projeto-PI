@@ -96,11 +96,15 @@
                         </nav>
                     </div>
                     @if(Auth::check() && Auth::user()->tipo === 'C')
-                        <a class="nav-link {{ Route::currentRouteName() == 'historico.index' ? 'active' : '' }}"
-                           href="{{ route('historico.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-ticket"></i></div>
-                            Histórico
-                        </a>
+                        <div aria-labelledby="headingOne">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Route::currentRouteName() == 'historico.index' ? 'active' : '' }}"
+                                   href="{{ route('historico.index') }}">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-ticket"></i></div>
+                                    Histórico
+                                </a>
+                            </nav>
+                        </div>
                     @endif
 
                     @if(Auth::check() && Auth::user()->tipo === 'A')

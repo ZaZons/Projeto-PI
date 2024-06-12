@@ -95,6 +95,23 @@
                             </a>
                         </nav>
                     </div>
+                    <a class="nav-link {{ Route::currentRouteName() == 'historico.index' ? 'active' : '' }}"
+                       href="{{ route('historico.index') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-ticket"></i></div>
+                        Histórico
+                    </a>
+                    @if(Auth::check() && Auth::user()->tipo === 'C')
+                        <div class="sb-sidenav-menu-heading">Espaço Privado</div>
+                        <div aria-labelledby="headingOne">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}"
+                                   href="{{ route('carrinho.index') }}">
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                    Carrinho
+                                </a>
+                            </nav>
+                        </div>
+                    @endif
 
                     @if(Auth::check() && Auth::user()->tipo === 'A')
                         <div class="sb-sidenav-menu-heading">Gestão</div>

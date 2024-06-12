@@ -22,8 +22,16 @@ class Sessoes extends Model
 
     public function bilhetes()
     {
-        return $this->hasMany(Bilhete::class);
+        return $this->hasMany(Bilhete::class, 'sessao_id');
     }
+
+//    protected function lugaresOcupados() {
+//        return Attribute::make(
+//            get: function () {
+//                return Bilhete::where('sessao_id', $this->id);
+//            },
+//        );
+//    }
 
     protected function lugaresDisponiveis(): Attribute
     {

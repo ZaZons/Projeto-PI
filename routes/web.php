@@ -28,6 +28,7 @@ Route::put('carrinho/add/{sessao}', [CarrinhoController::class, 'add'])->name('c
 Route::put('carrinho/remove/{sessao}', [CarrinhoController::class, 'remove'])->name('carrinho.remove');
 Route::put('carrinho/update/{sessao}', [CarrinhoController::class, 'updateQuantidade'])->name('carrinho.updateQuantidade');
 Route::get('carrinho/checkout', [CarrinhoController::class, 'checkout'])->name('carrinho.checkout');
+Route::put('carrinho/sessao/{sessao}/lugares/{lugar}', [CarrinhoController::class, 'lugares'])->name('carrinho.lugares');
 
 Route::middleware('can:comprar')->group(function() {
     Route::get('carrinho/pagamento', [CarrinhoController::class, 'pagamento'])->name('carrinho.pagamento');

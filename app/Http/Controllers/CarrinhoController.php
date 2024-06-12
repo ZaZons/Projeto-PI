@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bilhete;
+use App\Models\Lugares;
 use App\Models\Recibo;
 use App\Models\Sessoes;
 use App\Services\Payment;
@@ -40,26 +41,32 @@ class CarrinhoController extends Controller
         return back();
     }
 
-    public function add(Sessoes $sessao): RedirectResponse
+    public function add(Request $request, Sessoes $sessao)
     {
+        $quantidade = $request->quantidade ?? null;
+
         if (!session()->has('carrinho')) {
            $this->clear();
         }
 
+        $carrinho = session('carrinho');
         $id = $sessao->id;
 
-        $carrinho = session('carrinho');
-
-        if (array_key_exists($id, $carrinho)) {
-            $carrinho[$id]->custom++;
-        } else {
-            $sessao->custom = 1;
-            $carrinho[$id] = $sessao;
-        }
+//        if (array_key_exists($id, $carrinho)) {
+//            $carrinho[$id]->custom += $quantidade;
+//        } else {
+//            $sessao->custom = $quantidade;
+//            $carrinho[$id] = $sessao;
+//        }
 
         session(['carrinho' => $carrinho]);
 
-        return back();
+        return view('lugares.index', ['sessao' => $carrinho[$id], 'lugares' => $carrinho[$id]->sala->lugares]);
+    }
+
+    public function lugares(Sessoes $sessao, Lugares $lugar) {
+        dump($lugar);
+        dump($sessao);
     }
 
     public function remove(Sessoes $sessao): RedirectResponse {

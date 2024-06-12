@@ -6,6 +6,7 @@
         <th>Hora</th>
         <th>Sala</th>
         <th>Bilhetes disponíveis</th>
+        <th>Quantidade</th>
         <th class="button-icon-col"></th>
     </tr>
     </thead>
@@ -18,15 +19,22 @@
             <td>{{ $sessao->sala->nome }}</td>
             <td>{{ $sessao->lugaresDisponiveis }}</td>
             @if($sessao->lugaresDisponiveis > 0)
-                <td>
-                    <form method="POST" action="{{ route('carrinho.add', ['sessao' => $sessao]) }}">
-                        @csrf
-                        @method('PUT')
-                        <button type="submit" class="btn btn-success">
+                <form method="POST" action="{{ route('carrinho.add', ['sessao' => $sessao]) }}">
+                    @csrf
+                    @method('PUT')
+                    <td>
+                        <input type="number" name="quantidade" min="1" value="1">
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#confirmationModal">
                             <i class="fa-solid fa-cart-plus"></i>
                         </button>
-                    </form>
-                </td>
+                    </td>
+                </form>
+            @else
+                <td></td>
+                <td>Esgotado</td>
             @endif
         </tr>
     @endforeach

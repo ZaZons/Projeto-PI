@@ -56,7 +56,7 @@
                 <form method="POST" action="{{ route('carrinho.remove', ['sessao' => $sessao]) }}">
                     @csrf
                     @method('PUT')
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-danger">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </form>

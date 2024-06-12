@@ -12,7 +12,7 @@
     </div>
     @if($carrinho)
         <div>
-            @include('bilhetes.shared.table', ['sessoes' => $carrinho])
+            @include('bilhetes.shared.table', ['sessoes' => $carrinho, 'precoSemIva' => $config->preco_bilhete_sem_iva, 'iva' => $config->percentagem_iva])
         </div>
         <div class="my-4 d-flex justify-content-end">
             <button type="submit" class="btn btn-primary" form="formStore">

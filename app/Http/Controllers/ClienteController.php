@@ -120,10 +120,9 @@ class ClienteController extends Controller
             ->with('alert-type', 'success');
     }
 
-    public static function updatePagamento(string $tipo, string $ref, int $id): void {
-        $cliente = Cliente::query()->where('id', $id);
-
+    public static function updatePagamento(Cliente $cliente, string $tipo, string $ref): void {
         $cliente->tipo_pagamento = $tipo;
         $cliente->ref_pagamento = $ref;
+        $cliente->save();
     }
 }

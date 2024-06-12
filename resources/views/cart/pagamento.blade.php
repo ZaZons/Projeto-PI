@@ -16,7 +16,7 @@
                 <div class="d-none"><input type="text" name="metodo" value="{{ $metodo }}"></div>
                 @if($metodo == 'VISA')
                     <div class="mb-3 form-floating col-6">
-                        <input type="text" class="form-control @error('number') is-invalid @enderror" name="number" id="inputNumber">
+                        <input type="text" class="form-control @error('number') is-invalid @enderror" name="number" id="inputNumber" value="{{ $usarGuardado ? $cliente->ref_pagamento : '' }}">
                         <label for="inputNumber" class="form-label">Número do cartão</label>
                         @error('number')
                         <div class="invalid-feedback">
@@ -36,7 +36,7 @@
                 @endif
                 @if($metodo == 'PAYPAL')
                     <div class="mb-3 form-floating col-6">
-                        <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="inputEmail">
+                        <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" id="inputEmail" value="{{ $usarGuardado ? $cliente->ref_pagamento : '' }}">
                         <label for="inputEmail" class="form-label">Email</label>
                         @error('email')
                         <div class="invalid-feedback">
@@ -52,7 +52,7 @@
                 @enderror
                 @if($metodo == 'MBWAY')
                     <div class="mb-3 form-floating col-6">
-                        <input type="text" class="form-control @error('telemovel') is-invalid @enderror" name="telemovel" id="inputTelemovel">
+                        <input type="text" class="form-control @error('telemovel') is-invalid @enderror" name="telemovel" id="inputTelemovel" value="{{ $usarGuardado ? $cliente->ref_pagamento : '' }}">
                         <label for="inputTelemovel" class="form-label">Número de telemóvel</label>
                         @error('telemovel')
                         <div class="invalid-feedback">
@@ -62,8 +62,10 @@
                     </div>
                 @endif
                 <div class="mb-3 form-floating">
-                    <input type="checkbox" name="guardarMetodo" id="guardarMetodo1">
-                    <label for="guardarMetodo1" class="form-label">Guardar método de pagamento</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="guardarMetodo" id="guardarMetodo1">
+                        <label class="form-check-label" for="guardarMetodo1">Guardar método de pagamento</label>
+                    </div>
                 </div>
             </div>
         </div>

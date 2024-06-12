@@ -1,6 +1,4 @@
 @php
-    $precoSemIva = \App\Http\Controllers\ConfiguracaoController::config()->preco_bilhete_sem_iva;
-    $iva = \App\Http\Controllers\ConfiguracaoController::config()->percentagem_iva;
     $precoTotal = 0;
     $precoTotalSemIva = 0;
     $precoComIva = 0;

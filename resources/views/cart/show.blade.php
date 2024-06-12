@@ -14,7 +14,7 @@
         @dump(session('carrinho'))
         @for($i = 0; $i < 10; $i++)
             @php
-                $sessao = "Sessao nº $i";
+                $sessao = "Sessoes nº $i";
             @endphp
             <p>{{ $sessao }}</p>
             <form method="POST" action="{{ route('carrinho.store', ['sessao' => $sessao]) }}">

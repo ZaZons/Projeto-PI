@@ -14,6 +14,6 @@ class Recibo extends Model
         'tipo_pagamento', 'ref_pagamento', 'recibo_pdf_url'];
 
     public function cliente(): BelongsTo {
-        return $this->belongsTo(Cliente::class, 'cliente_id');
+        return $this->belongsTo(Cliente::class);
     }
 }

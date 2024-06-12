@@ -85,18 +85,16 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-ticket"></i></div>
                         Bilhetes
                     </a>
-                    @if(Auth::check() && Auth::user()->tipo === 'C')
-                        <div class="sb-sidenav-menu-heading">Espaço Privado</div>
-                        <div aria-labelledby="headingOne">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}"
-                                   href="{{ route('carrinho.index') }}">
-                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                    Carrinho
-                                </a>
-                            </nav>
-                        </div>
-                    @endif
+                    <div class="sb-sidenav-menu-heading">Espaço Privado</div>
+                    <div aria-labelledby="headingOne">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}"
+                               href="{{ route('carrinho.index') }}">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                Carrinho
+                            </a>
+                        </nav>
+                    </div>
 
                     @if(Auth::check() && Auth::user()->tipo === 'A')
                         <div class="sb-sidenav-menu-heading">Gestão</div>

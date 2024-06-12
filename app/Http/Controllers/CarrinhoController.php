@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use MongoDB\Driver\Query;
+use function PHPUnit\Framework\arrayHasKey;
 
 class CarrinhoController extends Controller
 {
@@ -24,18 +26,60 @@ class CarrinhoController extends Controller
         return view('cart.index', compact('carrinho'));
     }
 
+    public function updateQuantidade(Request $request,Sessoes $sessao) {
+        $carrinho = session('carrinho');
+
+        if ($request->quantidade <= 0) {
+            unset($carrinho[$sessao->id]);
+        } else {
+            $carrinho[$sessao->id]->custom = $request->quantidade;
+        }
+
+        session(['carrinho' => $carrinho]);
+
+        return back();
+    }
+
     public function add(Sessoes $sessao): RedirectResponse
     {
         if (!session()->has('carrinho')) {
            $this->clear();
         }
 
-        session()->push('carrinho', $sessao);
+        $id = $sessao->id;
+
+        $carrinho = session('carrinho');
+
+        if (array_key_exists($id, $carrinho)) {
+            $carrinho[$id]->custom++;
+        } else {
+            $sessao->custom = 1;
+            $carrinho[$id] = $sessao;
+        }
+
+        session(['carrinho' => $carrinho]);
 
         return back();
     }
 
-    public function checkout(): View {
+    public function remove(Sessoes $sessao): RedirectResponse {
+        $carrinho = session('carrinho');
+        $id = $sessao->id;
+
+        unset($carrinho[$id]);
+
+        session(['carrinho' => $carrinho]);
+
+        return back();
+    }
+
+    public function checkout() {
+        if (!Auth::check() || Auth::user()->tipo !== 'C') {
+            return redirect()->route('login')
+                ->with('alert-msg', 'Para comprar tem de iniciar sessão como um cliente')
+                ->with('alert-type', 'warning');
+        }
+
         return view('cart.checkout');
     }
 

@@ -11,10 +11,15 @@
 
 @section('main')
     <div class="mb-4">
-
-        <form action="{{ route('sessoes.index') }}" method="GET" class="d-flex">
-            <input type="text" name="filme" class="form-control me-2" placeholder="Procurar sessões por filme..." value="{{ old('filme', $filterByFilme) }}">
-            <button type="submit" class="btn btn-primary">Pesquisar</button>
+        <form action="{{ route('sessoes.index') }}" method="GET" class="form-floating">
+            <div class="d-flex flex-grow-1 justify-content-between">
+                <input type="date" class="form-control me-3" id="data" name="data" value="{{ old('data', $filterByData) }}">
+                <input type="time" class="form-control me-3" id="horario" name="horario" value="{{ old('data', $filterByHorario) }}">
+                <button type="submit" class="btn btn-primary">Pesquisar</button>
+            </div>
+            <div class="d-flex flex-grow-1 justify-content-end mt-2">
+                <a href="{{ route('sessoes.index') }}" class="btn btn-danger">Limpar filtros</a>
+            </div>
         </form>
 
     </div>
@@ -22,6 +27,6 @@
         'sessoes' => $sessoes,
     ])
     <div>
-        {{ $sessoes->appends(request()->query())->links() }} <!-- Aqui estamos mantendo os parâmetros de consulta -->
+        {{ $sessoes->withQueryString()->links() }}
     </div>
 @endsection

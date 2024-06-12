@@ -5,12 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Lugares extends Model
+class Configuracao extends Model
 {
     use HasFactory;
-
-    public function sala()
-    {
-        return $this->belongsTo(Sala::class);
-    }
+    protected $table = 'configuracao';
 }

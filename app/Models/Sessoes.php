@@ -2,21 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Sessoes extends Model
 {
-    protected $dates = ['filme_id', 'sala_id', 'data', 'horario_inicio'];
+    protected $fillable = ['filme_id', 'sala_id', 'data', 'horario_inicio'];
 
     public function filme()
     {
-        return $this->belongsTo(Filmes::class, 'filme_id');
+        return $this->belongsTo(Filmes::class);
     }
 
     public function sala()
     {
-        return $this->belongsTo(Sala::class, 'sala_id');
+        return $this->belongsTo(Sala::class);
     }
 
     public function bilhetes()
@@ -24,9 +25,15 @@ class Sessoes extends Model
         return $this->hasMany(Bilhete::class);
     }
 
-    public function lugares()
+    protected function lugaresDisponiveis(): Attribute
     {
-        // Se você não tiver um modelo Lugar, ajuste esta relação de acordo com a estrutura do seu banco de dados
-        return $this->hasMany(Lugares::class, 'sala_id', 'sala_id');
+        return Attribute::make(
+            get: function () {
+                $nLugares = Lugares::where('sala_id', $this->sala_id)->count();
+                $lugaresUsados = Bilhete::where('sessao_id', $this->id)->count();
+
+                return $nLugares - $lugaresUsados;
+            },
+        );
     }
 }

@@ -27,53 +27,44 @@ class CarrinhoController extends Controller
         return view('cart.index', compact('carrinho', 'config'));
     }
 
-    public function updateQuantidade(Request $request,Sessoes $sessao) {
-        $carrinho = session('carrinho');
-
-        if ($request->quantidade <= 0) {
-            unset($carrinho[$sessao->id]);
-        } else {
-            $carrinho[$sessao->id]->custom = $request->quantidade;
-        }
-
-        session(['carrinho' => $carrinho]);
-
-        return back();
-    }
-
     public function add(Request $request, Sessoes $sessao)
     {
-        $quantidade = $request->quantidade ?? null;
+        $quantidade = $request->quantidade ?? 1;
+        $nBilhete = 1;
 
         if (!session()->has('carrinho')) {
-           $this->clear();
+            $this->clear();
         }
 
-        $carrinho = session('carrinho');
-        $id = $sessao->id;
-
-//        if (array_key_exists($id, $carrinho)) {
-//            $carrinho[$id]->custom += $quantidade;
-//        } else {
-//            $sessao->custom = $quantidade;
-//            $carrinho[$id] = $sessao;
-//        }
-
-        session(['carrinho' => $carrinho]);
-
-        return view('lugares.index', ['sessao' => $carrinho[$id], 'lugares' => $carrinho[$id]->sala->lugares]);
+        return view('lugares.index', ['sessao' => $sessao, 'quantidade' => $quantidade, 'nBilhete' => $nBilhete]);
     }
 
-    public function lugares(Sessoes $sessao, Lugares $lugar) {
-        dump($lugar);
-        dump($sessao);
+    public function lugares(Sessoes $sessao, Lugares $lugar, $nBilhete, $quantidade) {
+        $newBilhete = new Bilhete();
+        $newBilhete->sessao_id = $sessao->id;
+        $newBilhete->lugar_id = $lugar->id;
+        $newBilhete->preco_sem_iva = ConfiguracaoController::config()->preco_bilhete_sem_iva;
+
+        session()->push('carrinho', $newBilhete);
+
+        if ($nBilhete < $quantidade) {
+            return view('lugares.index', ['sessao' => $sessao, 'quantidade' => $quantidade, 'nBilhete' => ++$nBilhete]);
+        }
+
+        return redirect()->route('sessoes.index');
     }
 
-    public function remove(Sessoes $sessao): RedirectResponse {
+    public function remove(Request $request) {
         $carrinho = session('carrinho');
-        $id = $sessao->id;
+        $lugar_id = $request->lugar_id;
+        $sessao_id = $request->sessao_id;
 
-        unset($carrinho[$id]);
+        for ($i = 0; $i < sizeof($carrinho) - 1; $i++) {
+            if ($carrinho[$i]->sessao_id == $sessao_id && $carrinho[$i]->lugar_id == $lugar_id) {
+                array_splice($carrinho, $i, 1);
+                break;
+            }
+        }
 
         session(['carrinho' => $carrinho]);
 
@@ -92,7 +83,7 @@ class CarrinhoController extends Controller
         return view('cart.checkout', compact('cliente'));
     }
 
-    public function pagamento(Request $request): View {
+    public function pagamentoPage(Request $request): View {
         $metodo = $request->metodo ?? '';
         $nif = $request->nif ?? null;
 
@@ -144,12 +135,12 @@ class CarrinhoController extends Controller
         }
 
         $carrinho = session('carrinho');
-        $preco_individual = ConfiguracaoController::config()->preco_bilhete_sem_iva;
-        $recibo = DB::transaction(function () use ($carrinho, $cliente, $metodo, $ref, $preco_individual) {
+        $recibo = DB::transaction(function () use ($carrinho, $cliente, $metodo, $ref) {
             $iva = ConfiguracaoController::config()->percentagem_iva;
             $preco_total = 0;
-            foreach ($carrinho as $bilhete) {
-                $preco_total += $preco_individual * $bilhete->custom;
+
+            foreach($carrinho as $bilhete) {
+                $preco_total += $bilhete->preco_sem_iva;
             }
 
             $newRecibo = new Recibo();
@@ -167,20 +158,18 @@ class CarrinhoController extends Controller
             return $newRecibo;
         });
 
-        foreach ($carrinho as $sessao) {
-            for ($i = 0; $i < $sessao->custom; $i++) {
-                DB::transaction(function () use ($recibo, $cliente, $sessao, $preco_individual) {
-                    $newBilhete = new Bilhete();
-                    $newBilhete->recibo_id = $recibo->id;
-                    $newBilhete->cliente_id = $cliente->id;
-                    $newBilhete->sessao_id = $sessao->id;
-                    $newBilhete->lugar_id = 1;
-                    $newBilhete->preco_sem_iva = $preco_individual;
-                    $newBilhete->estado = 'não usado';
+        foreach ($carrinho as $bilhete) {
+            DB::transaction(function () use ($recibo, $cliente, $bilhete) {
+                $newBilhete = new Bilhete();
+                $newBilhete->sessao_id = $bilhete->sessao_id;
+                $newBilhete->lugar_id = $bilhete->lugar_id;
+                $newBilhete->recibo_id = $recibo->id;
+                $newBilhete->cliente_id = $cliente->id;
+                $newBilhete->preco_sem_iva = $bilhete->preco_sem_iva;
+                $newBilhete->estado = 'não usado';
 
-                    $newBilhete->save();
-                });
-            }
+                $newBilhete->save();
+            });
         }
 
         $this->clear();
@@ -194,7 +183,6 @@ class CarrinhoController extends Controller
     protected function clear(): RedirectResponse
     {
         session()->put('carrinho', []);
-
         return back();
     }
 }

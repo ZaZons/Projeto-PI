@@ -11,51 +11,35 @@
         <th>Data</th>
         <th>Hora</th>
         <th>Sala</th>
-        <th>Quantidade</th>
-        <th>Preço individual (s/ IVA)</th>
-        <th>Preço total (s/ IVA)</th>
-        <th>Preço total (c/ IVA {{$iva}}%)</th>
+        <th>Lugar</th>
+        <th>Preço (s/ IVA)</th>
+        <th>Preço (c/ IVA {{$iva}}%)</th>
         <th>Remover</th>
     </tr>
     </thead>
     <tbody>
-    @foreach ($sessoes as $sessao)
+    @foreach ($bilhetes as $bilhete)
         <tr>
-            <td>{{ $sessao->filme->titulo }}</td>
-            <td>{{ \Carbon\Carbon::parse($sessao->data)->format('d/m/Y') }}</td>
-            <td>{{ \Carbon\Carbon::parse($sessao->horario_inicio)->format('H:i') }}</td>
-            <td>{{ $sessao->sala->nome }}</td>
-            <td>
-                <form method="POST" action="{{ route('carrinho.updateQuantidade', ['sessao' => $sessao]) }}" class="form-floating">
-                    @csrf
-                    @method('PUT')
-                    <input type="number" name="quantidade" value="{{ $sessao->custom }}" min="0">
-                    <button type="submit" class="btn btn-success">
-                        <i class="fa-solid fa-rotate-right"></i>
-                    </button>
-
-                </form>
-            </td>
-            <td>
-                {{ $precoSemIva }}
-            </td>
+            <td>{{ $bilhete->sessao->filme->titulo }}</td>
+            <td>{{ \Carbon\Carbon::parse($bilhete->sessao->data)->format('d/m/Y') }}</td>
+            <td>{{ \Carbon\Carbon::parse($bilhete->sessao->horario_inicio)->format('H:i') }}</td>
+            <td>{{ $bilhete->sessao->sala->nome }}</td>
+            <td>{{ $bilhete->lugar->fila . $bilhete->lugar->posicao }}</td>
+            <td>{{ $bilhete->preco_sem_iva }}</td>
             <td>
                 @php
-                    $precoTotalSemIva += $precoSemIva * $sessao->custom
-                @endphp
-                {{ number_format($precoSemIva * $sessao->custom, 2) }} ({{ "$precoSemIva x $sessao->custom" }})
-            </td>
-            <td>
-                @php
-                    $precoComIva = $precoSemIva * $sessao->custom * (1 + $iva / 100);
+                    $precoTotalSemIva += $bilhete->preco_sem_iva;
+                    $precoComIva = $bilhete->preco_sem_iva * (1 + $iva / 100);
                     $precoTotal += $precoComIva;
                 @endphp
                 {{ number_format($precoComIva, 2)  }}
             </td>
             <td>
-                <form method="POST" action="{{ route('carrinho.remove', ['sessao' => $sessao]) }}">
+                <form method="POST" action="{{ route('carrinho.remove') }}">
                     @csrf
                     @method('PUT')
+                    <input type="text" name="sessao_id" value="{{ $bilhete->sessao_id }}" class="d-none">
+                    <input type="text" name="lugar_id" value="{{ $bilhete->lugar_id }}" class="d-none">
                     <button type="submit" class="btn btn-danger">
                         <i class="fa-solid fa-trash"></i>
                     </button>

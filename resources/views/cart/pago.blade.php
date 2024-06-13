@@ -9,5 +9,5 @@
     </ol>
 @endsection
 @section('main')
-    <div>mjuito bem pagou tudo, parabens</div>
+    <div>Pagamento realizado com sucesso, um recibo será enviado para o seu email</div>
 @endsection

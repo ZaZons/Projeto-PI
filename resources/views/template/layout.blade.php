@@ -115,6 +115,8 @@
                                    href="{{ route('clientes.index') }}">Clientes</a>
                                 <a class="nav-link {{ Route::currentRouteName() == 'funcionarios.index' ? 'active' : '' }}"
                                    href="{{ route('funcionarios.index') }}">Funcionários</a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'estatisticas.index' ? 'active' : '' }}"
+                                   href="{{ route('estatisticas.index') }}">Estatísticas</a>
                             </nav>
                         </div>
                     @endif

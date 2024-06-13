@@ -10,9 +10,10 @@ class Sessoes extends Model
 {
     protected $fillable = ['filme_id', 'sala_id', 'data', 'horario_inicio'];
 
+    protected $table = 'sessoes';
     public function filme()
     {
-        return $this->belongsTo(Filmes::class);
+        return $this->belongsTo(Filmes::class, 'filme_id');
     }
 
     public function sala()

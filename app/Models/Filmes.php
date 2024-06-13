@@ -17,6 +17,8 @@ class Filmes extends Model
             },
         );
     }
+
+    protected $table = 'filmes';
     public function genero()
     {
         return $this->belongsTo(Genero::class, 'genero_code', 'code');
@@ -24,6 +26,11 @@ class Filmes extends Model
 
     public function sessoes()
     {
-        return $this->hasMany(Sessoes::class, 'filmes_id');
+        return $this->hasMany(Sessoes::class, 'filme_id');
+    }
+
+    public function bilhetes()
+    {
+        return $this->hasManyThrough(Bilhete::class, Sessoes::class);
     }
 }

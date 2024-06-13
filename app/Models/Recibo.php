@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Recibo extends Model
 {
     use HasFactory;
+    protected $table = 'recibos';
 
     protected $fillable = ['cliente_id', 'data', 'preco_total_sem_iva', 'iva', 'preco_total_com_iva', 'nif', 'nome_cliente',
         'tipo_pagamento', 'ref_pagamento', 'recibo_pdf_url'];
@@ -19,6 +20,6 @@ class Recibo extends Model
 
     public function bilhetes()
     {
-        return $this->hasMany(Bilhete::class);
+        return $this->hasMany(Bilhete::class, 'recibo_id');
     }
 }

@@ -1,6 +1,6 @@
 @extends('template.layout')
-@dump($sessao)
-@section('titulo', $sessao)
+
+@section('titulo', $sessao->filme->titulo)
 
 @section('subtitulo')
     <ol class="breadcrumb">
@@ -12,8 +12,7 @@
 @section('main')
     <div class="row mb-3">
         <div class="col-md-8">
-            <h2>{{ $sessao->filme->titulo }}</h2>
-            <p><strong>Sala:</strong> {{ $sessao->sala->nome }}</p>
+            <h3><strong>Sala:</strong> {{ $sessao->sala->nome }}</h3>
             <p><strong>Data:</strong> {{ $sessao->data }}</p>
             <p><strong>Hora:</strong> {{ $sessao->horario_inicio }}</p>
             <p><strong>Inserir id do bilhete:</strong></p>

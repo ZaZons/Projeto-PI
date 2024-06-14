@@ -8,6 +8,7 @@
         <th>Bilhetes disponíveis</th>
         <th>Quantidade</th>
         <th class="button-icon-col"></th>
+        <th class="button-icon-col"></th>
     </tr>
     </thead>
     <tbody>
@@ -32,6 +33,9 @@
                         </button>
                     </td>
                 </form>
+                @if()
+
+                @endif
                 <td class="button-icon-col">
                     <a class="btn btn-secondary"
                        href="{{ route('validarBilhetes.index', ['sessao' => $sessao]) }}">

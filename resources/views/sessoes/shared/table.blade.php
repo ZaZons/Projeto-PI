@@ -8,7 +8,9 @@
         <th>Bilhetes disponíveis</th>
         <th>Quantidade</th>
         <th class="button-icon-col"></th>
-        <th class="button-icon-col"></th>
+        @if(Auth::check() && Auth::user()->tipo != 'C')
+            <th class="button-icon-col"></th>
+        @endif
     </tr>
     </thead>
     <tbody>
@@ -33,16 +35,14 @@
                         </button>
                     </td>
                 </form>
-                @if()
-
+                @if(Auth::check() && Auth::user()->tipo != 'C')
+                    <td class="button-icon-col">
+                        <a class="btn btn-secondary"
+                           href="{{ route('validarBilhetes.index', ['sessao' => $sessao]) }}">
+                            <i class="fa-solid fa-check"></i>
+                        </a>
+                    </td>
                 @endif
-                <td class="button-icon-col">
-                    <a class="btn btn-secondary"
-                       href="{{ route('validarBilhetes.index', ['sessao' => $sessao]) }}">
-                        <i class="fa-solid fa-check"></i>
-                    </a>
-                </td>
-                </td>
             @else
                 <td></td>
                 <td>Esgotado</td>

@@ -13,12 +13,10 @@ class BilheteController extends Controller
     public function index(Request $request): View
     {
         $filterById = $request->id ?? '';
-        $filterBySessaoId = $request->sessaoId ?? '';
 
         $sessao = Sessoes::find($request->sessao);
 
-
-        return view('validarBilhetes.index', compact( 'filterById', 'filterBySessaoId', 'sessao'));
+        return view('validarBilhetes.index', compact( 'filterById', 'sessao'));
     }
 
     public function show(Request $request)
@@ -33,7 +31,7 @@ class BilheteController extends Controller
         $sessao = $request->sessao ?? '';
 
         $bilhete = Bilhete::query()->where('id', $bilhete)->first();
-        return view('validarBilhetes.show', compact('bilhete', 'sessao'));
+        return view('validarBilhetes.show', compact('bilhete'));
 
     }
 

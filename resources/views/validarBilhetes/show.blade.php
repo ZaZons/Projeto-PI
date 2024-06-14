@@ -15,13 +15,11 @@
         </div>
         <br>
             <a href="{{ route('/update', ['id' => $id]) }}" class="btn btn-primary">Marcar como usado</a>
-
-        </form>
     @endif
     <br>
 
     <div class="col-md-6">
-        <a href="{{ route('validarBilhetes.index', ['sessao' => $sessao]) }}" class="btn btn-primary">Voltar</a>
+        <a href="{{ route('validarBilhetes.index', ['sessao' => $bilhete->sessao]) }}" class="btn btn-primary">Voltar</a>
     </div>
 @endsection
 

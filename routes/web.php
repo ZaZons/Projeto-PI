@@ -49,5 +49,6 @@ Route::resource('historico', HistoricoController::class);
 Route::get('validarBilhetes/validar', [BilheteController::class, 'validar'])->name('bilhetes.validar');
 Route::resource('validarBilhetes', BilheteController::class);
 
-Route::resource('estatisticas', EstatisticaController::class);
+
 Route::put('validarBilhetes/validar/bilhete/{bilhete}', [BilheteController::class, 'update'])->name('bilhetes.update');
+Route::resource('estatisticas', EstatisticaController::class);

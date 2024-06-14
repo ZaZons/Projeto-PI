@@ -32,6 +32,13 @@
                         </button>
                     </td>
                 </form>
+                <td class="button-icon-col">
+                    <a class="btn btn-secondary"
+                       href="{{ route('validarBilhetes.index', ['sessao' => $sessao]) }}">
+                        <i class="fa-solid fa-check"></i>
+                    </a>
+                </td>
+                </td>
             @else
                 <td></td>
                 <td>Esgotado</td>

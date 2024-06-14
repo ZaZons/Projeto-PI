@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EstatisticaController;
@@ -26,12 +27,13 @@ Route::delete('funcionarios/{funcionario}/foto', [FuncionariosController::class,
 
 Route::post('carrinho/pagar', [CarrinhoController::class, 'pagar'])->name('carrinho.pagar');
 Route::put('carrinho/add/{sessao}', [CarrinhoController::class, 'add'])->name('carrinho.add');
-Route::put('carrinho/remove', [CarrinhoController::class, 'remove'])->name('carrinho.remove');
+Route::put('carrinho/remove/{sessao}', [CarrinhoController::class, 'remove'])->name('carrinho.remove');
+Route::put('carrinho/update/{sessao}', [CarrinhoController::class, 'updateQuantidade'])->name('carrinho.updateQuantidade');
 Route::get('carrinho/checkout', [CarrinhoController::class, 'checkout'])->name('carrinho.checkout');
-Route::get('carrinho/sessao/{sessao}/lugar/{lugar}/bilhete/{nBilhete}/quantidade/{quantidade}', [CarrinhoController::class, 'lugares'])->name('carrinho.lugares');
+Route::put('carrinho/sessao/{sessao}/lugares/{lugar}', [CarrinhoController::class, 'lugares'])->name('carrinho.lugares');
 
 Route::middleware('can:comprar')->group(function() {
-    Route::get('carrinho/pagamento', [CarrinhoController::class, 'pagamentoPage'])->name('carrinho.pagamento');
+    Route::get('carrinho/pagamento', [CarrinhoController::class, 'pagamento'])->name('carrinho.pagamento');
     Route::get('cart/pago', [CarrinhoController::class, 'pago'])->name('carrinho.pago');
 
 });
@@ -44,4 +46,8 @@ Route::resource('sessoes', SessoesController::class);
 
 Route::resource('historico', HistoricoController::class);
 
+Route::get('validarBilhetes/validar', [BilheteController::class, 'validar'])->name('bilhetes.validar');
+Route::resource('validarBilhetes', BilheteController::class);
+
 Route::resource('estatisticas', EstatisticaController::class);
+Route::put('validarBilhetes/validar/bilhete/{bilhete}', [BilheteController::class, 'update'])->name('bilhetes.update');

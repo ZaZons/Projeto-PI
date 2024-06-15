@@ -32,7 +32,7 @@
                 @if($bilheteJaExistente)
                     <a><i class="fas fa-couch me-2 mt-4" style="color: red"></i></a>
                 @else
-                    <a href="{{ route('carrinho.lugares', ['sessao' => $sessao, 'lugar' => $lugar, 'nBilhete' => $nBilhete, 'quantidade' => $quantidade]) }}"><i class="fas fa-couch me-2 mt-4"></i></a>
+                    <a href="{{ route('carrinho.lugares', ['sessao' => $sessao, 'lugar' => $lugar, 'nBilhetes' => $nBilhete, 'quantidade' => $quantidade]) }}"><i class="fas fa-couch me-2 mt-4"></i></a>
                 @endif
                 @php($bilheteJaExistente = false)
             @endforeach

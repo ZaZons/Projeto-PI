@@ -35,7 +35,7 @@
                 {{ number_format($precoComIva, 2)  }}
             </td>
             <td>
-                <form method="POST" action="{{ route('carrinho.remove') }}">
+                <form method="POST" action="{{ route('carrinho.remove', ['sessao' => $bilhete->sessao]) }}">
                     @csrf
                     @method('PUT')
                     <input type="text" name="sessao_id" value="{{ $bilhete->sessao_id }}" class="d-none">

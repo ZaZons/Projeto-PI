@@ -7,11 +7,15 @@
 
     @else
         <h3>Nome do cliente: {{$bilhete->cliente->user->name }}</h3>
-        <br>
-        <img src="{{ $bilhete->cliente->user->foto_url }}" alt="Foto do user">
+        <img src="{{ $bilhete->cliente->user->fullPhotoUrl }}" alt="Foto do user">
 
         <br>
-            <a href="{{ route('bilhetes.update', ['bilhete' => $bilhete]) }}" class="btn btn-primary">Marcar como usado</a>
+        <br>
+        <form action="{{ route('bilhetes.update', ['bilhete' => $bilhete]) }}" method="post">
+            @method('PUT')
+            @csrf
+            <button type="submit" class="btn btn-primary">Marcar como usado</button>
+        </form>
     @endif
     <br>
     <br>

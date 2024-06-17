@@ -33,7 +33,7 @@ Route::get('carrinho/checkout', [CarrinhoController::class, 'checkout'])->name('
 Route::get('carrinho/sessao/{sessao}/lugares/{lugar}/nBilhetes/{nBilhetes}/quantidade/{quantidade}', [CarrinhoController::class, 'lugares'])->name('carrinho.lugares');
 
 Route::middleware('can:comprar')->group(function() {
-    Route::get('carrinho/pagamento', [CarrinhoController::class, 'pagamento'])->name('carrinho.pagamento');
+    Route::get('carrinho/pagamento', [CarrinhoController::class, 'pagamentoPage'])->name('carrinho.pagamento');
     Route::get('cart/pago', [CarrinhoController::class, 'pago'])->name('carrinho.pago');
 
 });
@@ -46,9 +46,10 @@ Route::resource('sessoes', SessoesController::class);
 
 Route::resource('historico', HistoricoController::class);
 
+
 Route::get('validarBilhetes/validar', [BilheteController::class, 'validar'])->name('bilhetes.validar');
 Route::resource('validarBilhetes', BilheteController::class);
+Route::get('validarBilhetes/validar/bilhete/{bilhete}', [BilheteController::class, 'update'])->name('bilhetes.update');
 
 
-Route::put('validarBilhetes/validar/bilhete/{bilhete}', [BilheteController::class, 'update'])->name('bilhetes.update');
 Route::resource('estatisticas', EstatisticaController::class);

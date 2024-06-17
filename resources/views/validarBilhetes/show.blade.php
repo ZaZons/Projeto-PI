@@ -10,12 +10,10 @@
         <br>
         <img src="{{ $bilhete->cliente->user->foto_url }}" alt="Foto do user">
 
-        <div class="col-md-6">
-            <a href="{{ route('validarBilhetes.index', ['page' => request()->get('page', 1)]) }}" class="btn btn-primary">foda se</a>
-        </div>
         <br>
-            <a href="{{ route('/update', ['id' => $id]) }}" class="btn btn-primary">Marcar como usado</a>
+            <a href="{{ route('bilhetes.update', ['bilhete' => $bilhete]) }}" class="btn btn-primary">Marcar como usado</a>
     @endif
+    <br>
     <br>
 
     <div class="col-md-6">
